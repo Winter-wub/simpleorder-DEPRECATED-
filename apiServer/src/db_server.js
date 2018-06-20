@@ -71,45 +71,45 @@ fastify.register(require('./orders'), (err) => {
 //   });
 // });
 
-fastify.patch('/api/Orders/', (req, reply) => {
-  const RestaurantName = req.body.RestaurantName;
-  const RestaurantUrl = req.body.RestaurantUrl;
-  const OrderId = req.body.OrderId;
-  MongoClient.connect(url, (err, client) => {
-    const db = client.db(dbName);
-    const collection = db.collection('orders');
-    collection.update({
-      OrderId,
-    }, {
-      $set: {
-        RestaurantName,
-        RestaurantUrl,
-      },
+// fastify.patch('/api/Orders/', (req, reply) => {
+//   const RestaurantName = req.body.RestaurantName;
+//   const RestaurantUrl = req.body.RestaurantUrl;
+//   const OrderId = req.body.OrderId;
+//   MongoClient.connect(url, (err, client) => {
+//     const db = client.db(dbName);
+//     const collection = db.collection('orders');
+//     collection.update({
+//       OrderId,
+//     }, {
+//       $set: {
+//         RestaurantName,
+//         RestaurantUrl,
+//       },
 
-    }, (err, result) => {
-      if (err) return console.log(err);
-      reply.send(result);
-      client.close();
-      console.log(`Update OrderId${OrderId}`);
-    });
-  });
-});
+//     }, (err, result) => {
+//       if (err) return console.log(err);
+//       reply.send(result);
+//       client.close();
+//       console.log(`Update OrderId${OrderId}`);
+//     });
+//   });
+// });
 
-fastify.delete('/api/order/delete/:id', (req, reply) => {
-  const OrderId = parseInt(req.params.id, 10);
-  // console.log(OrderId)
-  MongoClient.connect(url, (err, client) => {
-    if (err) return console.log(err);
-    const db = client.db(dbName);
-    const collection = db.collection('orders');
-    collection.remove({ OrderId }, (err, result) => {
-      if (err) return console.log(err);
-      reply.send(`Delete OrderId : ${OrderId}`);
-      client.close();
-      console.log(`${result.result}Delete OrderId${OrderId}`);
-    });
-  });
-});
+// fastify.delete('/api/order/delete/:id', (req, reply) => {
+//   const OrderId = parseInt(req.params.id, 10);
+//   // console.log(OrderId)
+//   MongoClient.connect(url, (err, client) => {
+//     if (err) return console.log(err);
+//     const db = client.db(dbName);
+//     const collection = db.collection('orders');
+//     collection.remove({ OrderId }, (err, result) => {
+//       if (err) return console.log(err);
+//       reply.send(`Delete OrderId : ${OrderId}`);
+//       client.close();
+//       console.log(`${result.result}Delete OrderId${OrderId}`);
+//     });
+//   });
+// });
 
 fastify.post('/api/Orders/finish/', (req, reply) => {
   const OrderId = parseInt(req.body.OrderId, 10);

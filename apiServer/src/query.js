@@ -1,5 +1,5 @@
-import { connectDB } from './mongo';
 import autoincrement from 'mongodb-autoincrement';
+import { connectDB } from './mongo';
 
 const dbName = 'NowOrder';
 const colName = 'orders';
@@ -33,24 +33,70 @@ const createOrder = async (resName, resUrl, creator) => {
   const db = client.db(dbName);
   const col = db.collection(colName);
   try {
-    const autoindex = await () => new Promise((resolve, reject) => {
+    const autoindex = () => new Promise((resolve, reject) => {
       autoincrement.getNextSequence(db, colName, (err, autoIndex) => {
         if (err) reject(err);
         resolve(autoIndex);
       });
     });
-    const OrderId = await autoindex();
-
-
-
-
-
-    const result = await col.insert()
+    const genId = await autoindex();
+    const insertData = {
+      RestaurantName: resName,
+      RestaurantUrl: resUrl,
+      OrderId: genId,
+      Creator: creator,
+      MenuList: [],
+      Status: 'Pending',
+      CreateDate: new Date(),
+    };
+    const result = await col.insert(insertData);
+    client.close();
+    return result;
   } catch (error) {
-    console.log(error.stack);
+    return console.log(error.stack);
   }
 };
 
-createOrder(1, 1, 1);
+const editOrder = async (resName, resUrl, id) => {
+  const client = await connectDB();
+  const db = client.db(dbName);
+  const col = db.collection(colName);
+  const updateData = {
+    RestaurantName: resName,
+    RestaurantUrl: resUrl,
+    OrderId: parseInt(id, 10),
+  };
+  try {
+    const result = await col.update({ OrderId: updateData.OrderId }, {
+      $set: {
+        RestaurantName: updateData.RestaurantName,
+        RestaurantUrl: updateData.Url,
+      },
+    });
+    return result;
+  } catch (error) {
+    return console.log(error.stack);
+  }
+};
 
-export { getOrders, getOrderByid, createOrder };
+const deleteOrder = async (Id) => {
+  const OrderId = parseInt(Id, 10);
+  const client = await connectDB();
+  const db = client.db(dbName);
+  const col = db.collection(colName);
+  try {
+    const result = col.remove({ OrderId });
+    client.close();
+    return result;
+  } catch (error) {
+    return console.log(error.stack);
+  }
+};
+
+export {
+  getOrders,
+  getOrderByid,
+  createOrder,
+  editOrder,
+  deleteOrder,
+};
