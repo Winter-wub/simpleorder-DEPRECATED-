@@ -96,3 +96,4 @@ ui/yarn.lock
 ui/.vscode/csak-timelog.json
 apiServer/package-lock.json
 ui/src/App.test.js
+ui/.vscode/launch.json
