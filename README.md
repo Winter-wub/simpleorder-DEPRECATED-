@@ -1,7 +1,7 @@
 # Simple Ordering App
 
-## a simple web application created by 
+## a simple web application created by
 
-* React
+* ReactS
 
-* NodeJs
+* NodeJS
