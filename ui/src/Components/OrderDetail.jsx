@@ -10,8 +10,8 @@ import Creatable from 'react-select/lib/Creatable';
 import EditOrder from './EditOrder';
 
 import './styles/OrderDetail.css';
+import { url } from '../config';
 
-const apiUrl = 'http://localhost:1956/api/Orders/';
 class OrderDetail extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +42,7 @@ class OrderDetail extends Component {
   }
   async editOrder() {
     const { match } = this.props;
-    await axios.patch(apiUrl, {
+    await axios.patch(url, {
       RestaurantName: this.state.RestaurantName,
       RestaurantUrl: this.state.RestaurantUrl,
       OrderId: parseInt(match.params.id, 10),
@@ -54,20 +54,20 @@ class OrderDetail extends Component {
     const post = {
       OrderId: match.params.id,
     };
-    await axios.post(`${apiUrl}finish/`, post);
+    await axios.post(`${url}finish/`, post);
     history.push('/');
   }
   async cancelOrder() {
     const { history, match } = this.props;
-    const url = `http://localhost:1956/api/order/delete/${match.params.id}`;
+    const url1 = `http://localhost:1956/api/order/delete/${match.params.id}`;
     // console.log(typeof parseInt(this.props.match.params.id))
-    await axios.delete(url);
+    await axios.delete(url1);
     history.push('/');
   }
   async addDish() {
     const { match } = this.props;
-    const url = apiUrl + match.params.id;
-    await axios.post(url, {
+    const url2 = url + match.params.id;
+    await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
       unit: this.state.unit,
@@ -83,8 +83,8 @@ class OrderDetail extends Component {
       DishName,
     };
     // console.log(this.state.listorder.List);
-    const url = `${apiUrl}dishdel/${match.params.id}`;
-    await axios.post(url, deleteData);
+    const url2 = `${url}dishdel/${match.params.id}`;
+    await axios.post(url2, deleteData);
     const renewListorder = this.state.listorder.List.slice(0, index)
       .concat(this.state.listorder.List.slice(index + 1));
     const currentListorder = this.state.listorder;
@@ -129,7 +129,7 @@ class OrderDetail extends Component {
   }
   async GetOrderDetail() {
     const { match } = this.props;
-    const ResonseData = await axios(apiUrl + match.params.id);
+    const ResonseData = await axios(url + match.params.id);
     this.setState({
       order: ResonseData.data[0],
       Creator: ResonseData.data[0].Creator,

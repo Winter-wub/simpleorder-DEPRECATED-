@@ -14,7 +14,8 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PropTypes from 'prop-types';
 
-const apiUrl = 'http://localhost:1956/api/Orders/';
+import { url } from '../config';
+
 class EditOrder extends React.Component {
   constructor(props) {
     super(props);
@@ -32,7 +33,7 @@ class EditOrder extends React.Component {
   }
   async submitEdit() {
     const { Name, Url, id } = this.props;
-    await axios.patch(apiUrl, {
+    await axios.patch(url, {
       RestaurantName: Name,
       RestaurantUrl: Url,
       OrderId: parseInt(id, 10),
