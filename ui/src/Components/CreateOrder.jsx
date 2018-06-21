@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import * as FontAwesome from 'react-icons/lib/fa';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const url = 'http://localhost:1956/api/Orders/';
+import { url } from '../config';
 
 class CreateOrder extends Component {
   constructor(props) {
@@ -24,13 +24,13 @@ class CreateOrder extends Component {
       modal: !this.state.modal,
     });
   }
+
   handleTyping(event) {
     const input = {
       [event.target.name]: event.target.value,
     };
     this.setState(input);
   }
-
 
   async handleSubmit() {
     this.toggle();

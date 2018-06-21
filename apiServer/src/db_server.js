@@ -2,7 +2,7 @@ import cors from 'cors';
 import { MongoClient } from 'mongodb';
 
 const fastify = require('fastify')();
-const port = 1956;
+const port = 3001;
 
 // Connection URL
 const url = 'mongodb://localhost:27017';

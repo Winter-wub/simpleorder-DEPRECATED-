@@ -9,8 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-tippy/dist/tippy.css';
 
 import CreateOrder from './CreateOrder';
-
-const apiUrl = 'http://localhost:1956/api/Orders/';
+import { url } from '../config';
 
 class OrderList extends Component {
   constructor(props) {
@@ -34,7 +33,7 @@ class OrderList extends Component {
     });
   }
   async LoadOrderList() {
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(url);
     this.setState({
       OrderList: response.data,
     });
@@ -142,4 +141,3 @@ class OrderList extends Component {
 }
 
 export default OrderList;
-
