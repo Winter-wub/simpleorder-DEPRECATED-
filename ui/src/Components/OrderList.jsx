@@ -27,7 +27,6 @@ class OrderList extends Component {
     this.LoadOrderList();
   }
   reloadOrderlist(data) {
-    // console.log(data);
     this.setState({
       OrderList: data,
     });
@@ -97,6 +96,7 @@ class OrderList extends Component {
         </ModalBody>
       );
     };
+
     const ListOrder = () => (
       <Modal isOpen={this.state.modalListOrder} toggle={this.toggleModalListOrder}>
         <ModalHeader toggle={this.toggleModalListOrder} />
@@ -105,10 +105,11 @@ class OrderList extends Component {
       </Modal>
     );
 
-
     return (
       <Container>
-        <CreateOrder reloadOrderList={this.LoadOrderList()} />
+        <Row style={{ paddingTop: 60 }}>
+          <CreateOrder reloadOrderList={this.LoadOrderList} />
+        </Row>
         <Row>
           {ListOrder()}
           <Col>
@@ -119,14 +120,14 @@ class OrderList extends Component {
                   <th />
                   <th><FontAwesome.FaList /> Action</th>
                   <th><io.IoAndroidCart />Name</th>
-                  <th><FontAwesome.FaExternalLink /> Restaurant Link</th>
+                  <th><FontAwesome.FaExternalLink /> Link</th>
                   <th><FontAwesome.FaUser /> Owner</th>
-
                   <th><io.IoStatsBars /> Status</th>
                 </tr>
               </thead>
               <tbody>
                 {
+
             this.state.OrderList.map(List => (
               <tr key={List.OrderId}>
                 <th>{List.OrderId}</th>
@@ -134,10 +135,19 @@ class OrderList extends Component {
                   { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${List.CreateDate}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="info">สั่ง</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
                 </th>
                 <th>{List.RestaurantName}</th>
-                <th><a href={List.RestaurantUrl} target="_blank" rel="noopener noreferrer"><FontAwesome.FaExternalLinkSquare /> ลิงค์</a></th>
+                <th>
+                  <a href={List.RestaurantUrl} target="_blank" rel="noopener noreferrer">
+                    <FontAwesome.FaExternalLinkSquare /> ลิงค์
+                  </a>
+                </th>
                 <th>{List.Creator}</th>
-
-                <th>{ List.Status === 'Pending' ? 'สั่งได้' : 'ปิดแล้ว' }</th>
+                {
+                  List.Status === 'Pending'
+                  ?
+                  ( <th style={{ color: 'green' }}>สั่งได้</th> )
+                  :
+                  ( <th style={{ color: 'red' }}>ปิดแล้ว</th> )
+                }
               </tr>
               ))
               }

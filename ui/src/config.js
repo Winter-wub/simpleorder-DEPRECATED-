@@ -1,5 +1,6 @@
 const configs = {
-  url: 'http://e7b2c628.ngrok.io/api/Orders/',
+  url: 'http://localhost:3001/api/Orders/',
+  urlDelete: 'http://localhost:3001/api/order/delete'
 };
 
 module.exports = configs;

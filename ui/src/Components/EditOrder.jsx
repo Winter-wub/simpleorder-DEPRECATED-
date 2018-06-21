@@ -6,6 +6,7 @@ import {
   ModalBody,
   ModalFooter,
   Button,
+  ButtonGroup,
   InputGroup,
   InputGroupAddon,
   Input,
@@ -25,12 +26,24 @@ class EditOrder extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.submitEdit = this.submitEdit.bind(this);
+    this.finishOrder = this.finishOrder.bind(this);
   }
+
   toggle() {
     this.setState({
       modal: !this.state.modal,
     });
   }
+
+  async finishOrder() {
+    const {match, history} = this.props;
+    const post = {
+      OrderId: match.params.id
+    };
+    await axios.post(`${url}finish/`, post);
+    history.push('/');
+  }
+
   async submitEdit() {
     const { Name, Url, id } = this.props;
     await axios.patch(url, {
@@ -43,7 +56,13 @@ class EditOrder extends React.Component {
   render() {
     const { Name, Url, Handle } = this.props;
     return (
-      <div><Button style={{ margin: '10%' }} onClick={this.toggle}>แก้ไข Order</Button>
+      <div>
+        <ButtonGroup>
+          <Button style={{ margin: '10%' }} onClick={this.toggle}>แก้ไข Order</Button>
+          <Button color="success" style={{
+              margin: '2%'
+            }} onClick={() => this.finishOrder()}>ปิด Order</Button>
+        </ButtonGroup>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle} />
           <ModalBody>
