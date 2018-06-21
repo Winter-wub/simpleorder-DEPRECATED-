@@ -34,9 +34,16 @@ class OrderList extends Component {
   }
   async LoadOrderList() {
     const response = await axios.get(url);
-    this.setState({
-      OrderList: response.data,
-    });
+    const orderList = this.state.OrderList;
+
+    if (
+      response.data.length > 0 &&
+      orderList.length !== response.data.length
+    ) {
+      this.setState({
+        OrderList: response.data,
+      });
+    }
   }
 
   toggleModalListOrder(MenuList) {
@@ -45,6 +52,7 @@ class OrderList extends Component {
       listOrder: MenuList,
     });
   }
+
   render() {
     const checkOrder = () => {
       if (!this.state.listOrder) {
