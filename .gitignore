@@ -38,7 +38,7 @@ build/Release
 
 # Dependency directories
 /apiServer/node_modules/
-/apiServer/bin/
+/apiServer/dist/
 /apiServer/.babalrc
 /apiServer/.package-lock.json
 /apiServer/.vscode/
