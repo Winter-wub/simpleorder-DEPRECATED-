@@ -33,6 +33,7 @@ module.exports = (fastify, option, next) => {
 
   fastify.post('/api/Orders/finish/', async (req, reply) => {
     const { id } = req.body.OrderId;
+    console.log(id);
     const data = await finishOrder(id);
     reply.send(data);
   });

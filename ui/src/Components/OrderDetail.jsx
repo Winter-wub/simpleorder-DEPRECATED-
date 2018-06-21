@@ -59,7 +59,7 @@ class OrderDetail extends Component {
   }
   async cancelOrder() {
     const { history, match } = this.props;
-    const url1 = `http://localhost:1956/api/order/delete/${match.params.id}`;
+    const url1 = `http://localhost:3001/api/order/delete/${match.params.id}`;
     // console.log(typeof parseInt(this.props.match.params.id))
     await axios.delete(url1);
     history.push('/');
