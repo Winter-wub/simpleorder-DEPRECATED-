@@ -10,7 +10,7 @@ import { url } from '../config';
 class CreateOrder extends Component {
   constructor(props) {
     super(props);
-
+    // this.props.reload;
     this.state = {
       modal: false,
       RestaurantName: '',
