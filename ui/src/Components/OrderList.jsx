@@ -132,7 +132,7 @@ class OrderList extends Component {
               <tr key={List.OrderId}>
                 <th>{List.OrderId}</th>
                 <th>
-                  { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${List.CreateDate}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="info">สั่ง</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
+                  { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${List.CreateDate}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="success">สั่งอาหาร</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
                 </th>
                 <th>{List.RestaurantName}</th>
                 <th>
@@ -144,7 +144,7 @@ class OrderList extends Component {
                 {
                   List.Status === 'Pending'
                   ?
-                  ( <th style={{ color: 'green' }}>สั่งได้</th> )
+                  ( <th style={{ color: 'green' }}>เปิดอยู่</th> )
                   :
                   ( <th style={{ color: 'red' }}>ปิดแล้ว</th> )
                 }

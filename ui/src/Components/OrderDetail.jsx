@@ -140,8 +140,6 @@ class OrderDetail extends Component {
     const {match} = this.props;
     const currentDishlist = () => {
       const menuList = this.state.order.MenuList;
-
-      //  console.log(menuList)
       if (menuList) {
         const option = menuList.map(List => ({value: List.DishName, label: List.DishName}));
         return (<Creatable Name="DishName" isClearable="isClearable" onChange={this.handleChange} options={option} placeholder="เลือกเมนู หรือ สร้างใหม่"/>);
@@ -162,22 +160,26 @@ class OrderDetail extends Component {
             </thead>
             <tbody>
               {
+                this.state.order.MenuList.length === 0 ?
+                <tr colspan={3}><td>ยังไม่มีออเดอร์</td></tr>
+                :
                 this.state.order.MenuList.map(dish => (<tr key={dish.DishName}>
-                  <th>{dish.DishName}</th>
-                  <th>{dish.List.length}</th>
-                  <th>
+                  <td>{dish.DishName}</td>
+                  <td>{dish.List.length}</td>
+                  <td>
                     {
                       <Button onClick={() => this.toggle2(dish)}>
                           ดูคนที่สั่งทั้งหมด
                         </Button>
                     }
-                  </th>
+                  </td>
                 </tr>))
               }
             </tbody>
           </Table>
         </div>);
       }
+
       return (<Label/>);
     };
 
@@ -211,73 +213,58 @@ class OrderDetail extends Component {
         <ModalFooter/>
       </Modal>);
     };
-    return (<div style={{
-        paddingTop: '20%'
-      }}>
-      <div style={{
-          paddingLeft: '5%',
-          paddingRight: '5%'
-        }}>{DishList()}</div>
-      <div>
-        {modalList()}
-        <Jumbotron >
-          <Container>
-            <Row>
-              <Col>
-                <FormGroup row="row">
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">ชื่อเมนู&nbsp;</InputGroupAddon>
-                    <div style={{
-                        minWidth: '76%'
-                      }}>{currentDishlist()}</div>
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">คนสั่ง&nbsp;&nbsp;</InputGroupAddon>
-                    <Input type="text" name="Name" value={this.state.Name} onChange={this.handleEvent}/>
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>
-                    <Input type="number" name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleEvent}/>
-                  </InputGroup>
-                </FormGroup>
-                <Button color="success" onClick={() => this.addDish()}><FontAwesome.FaPlus style={{
-        marginRight: '5%'
-      }}/>
+    return (
+      <div style={{ paddingTop: '20%' }}>
+        <Container>
+          <Row>
+            <Col>
+              <div style={{ textAlign: 'left' }}>
+                <p><b>ชื่อร้าน:</b> {this.state.RestaurantName}</p>
+                <p><b>ลิงค์:</b> {this.state.RestaurantUrl}</p>
+                <p><b>คนสั่ง:</b> {this.state.Creator}</p>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+        <br />
+        <div style={{ paddingLeft: '5%', paddingRight: '5%'}}>
+          { DishList()}
+        </div>
+        <div>
+          {modalList()}
+          <Jumbotron>
+            <Container>
+              <Row>
+                <Col>
+                  <FormGroup row="row">
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">ชื่อเมนู&nbsp;</InputGroupAddon>
+                      <div style={{
+                          minWidth: '76%'
+                        }}>{currentDishlist()}</div>
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">คนสั่ง&nbsp;&nbsp;</InputGroupAddon>
+                      <Input type="text" name="Name" value={this.state.Name} onChange={this.handleEvent}/>
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>
+                      <Input type="number" name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleEvent}/>
+                    </InputGroup>
+                  </FormGroup>
+
+                  <Button
+                    color="success"
+                    style={{ width: '100%' }}
+                    onClick={() => this.addDish()}
+                  >
+                  <FontAwesome.FaPlus />
                   สั่งอาหาร</Button>
               </Col>
             </Row>
           </Container>
         </Jumbotron>
-        <Jumbotron>
-          <Container>
-            <Row>
-              <Col>
-                <Label>รายละเอียด Order</Label>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">ร้าน</InputGroupAddon>
-                  <Input name="RestaurantName" type="text" value={this.state.RestaurantName} onChange={this.handleEvent}/>
-                </InputGroup>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">Link</InputGroupAddon>
-                  <Input name="RestaurantUrl" type="text" value={this.state.RestaurantUrl} onChange={this.handleEvent}/>
-                </InputGroup>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">Order Creator</InputGroupAddon>
-                  <Input name="Creator" type="text" value={this.state.Creator} disable="true"/>
-                </InputGroup>
-                <EditOrder
-                  Name={this.state.RestaurantName}
-                  Url={this.state.RestaurantUrl}
-                  Handle={this.handleEvent}
-                  id={match.params.id}
-                  match={this.props.match}
-                  history={this.props.history}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
-
+        <Button color="danger" style={{ width: '100%' }} onClick={() => this.finishOrder()}>ปิด Order</Button>
       </div>
     </div>);
   }
