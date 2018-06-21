@@ -1,7 +1,4 @@
 # Simple Ordering App
 
-## a simple web application created by
-
-* ReactS
-
-* NodeJS
+* ReactJS(16.4.1)
+* NodeJS(v10.3.0)
