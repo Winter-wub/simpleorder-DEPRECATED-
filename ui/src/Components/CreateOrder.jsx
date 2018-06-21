@@ -44,32 +44,35 @@ class CreateOrder extends Component {
   }
 
   render() {
+    const Model = () => (
+      <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <ModalHeader toggle={this.toggle}>Create Order</ModalHeader>
+        <ModalBody>
+          <Form >
+            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+              <Label for="RestaurantName" className="mr-sm-2">ชื่อร้าน</Label>
+              <Input type="text" name="RestaurantName" id="RestaurantName" placeholder="ร้านอาหารตามสั่งป้า บลาๆ!!!" onChange={this.handleTyping} />
+            </FormGroup>
+            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+              <Label for="RestaurantUrl" className="mr-sm-2">Url ร้าน (แล้วแต่ถ้ามีก็ใส่ไป)</Label>
+              <Input type="url" name="RestaurantUrl" id="RestaurantUrl" placeholder="-" onChange={this.handleTyping} />
+            </FormGroup>
+            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+              <Label for="Creator" className="mr-sm-2">ชื่อคุณเอง</Label>
+              <Input type="url" name="Creator" id="Creator" placeholder="เวฟ" onChange={this.handleTyping} />
+            </FormGroup>
+          </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={this.handleSubmit}>Create</Button>
+          <Button color="danger" onClick={this.toggle}>Close</Button>
+        </ModalFooter>
+      </Modal>
+    );
     return (
       <div>
         <Button color="warning" onClick={this.toggle}><FontAwesome.FaPlus style={{ marginRight: '5%' }} />Create Order</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Create Order</ModalHeader>
-          <ModalBody>
-            <Form >
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for="RestaurantName" className="mr-sm-2">ชื่อร้าน</Label>
-                <Input type="text" name="RestaurantName" id="RestaurantName" placeholder="ร้านอาหารตามสั่งป้า บลาๆ!!!" onChange={this.handleTyping} />
-              </FormGroup>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for="RestaurantUrl" className="mr-sm-2">Url ร้าน (แล้วแต่ถ้ามีก็ใส่ไป)</Label>
-                <Input type="url" name="RestaurantUrl" id="RestaurantUrl" placeholder="-" onChange={this.handleTyping} />
-              </FormGroup>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for="Creator" className="mr-sm-2">ชื่อคุณเอง</Label>
-                <Input type="url" name="Creator" id="Creator" placeholder="เวฟ" onChange={this.handleTyping} />
-              </FormGroup>
-            </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.handleSubmit}>Create</Button>
-            <Button color="danger" onClick={this.toggle}>Close</Button>
-          </ModalFooter>
-        </Modal>
+        <Model />
       </div>);
   }
 }

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
 import { Tooltip } from 'react-tippy';
 import axios from 'axios';
 import React, { Component } from 'react';
@@ -107,42 +107,46 @@ class OrderList extends Component {
 
 
     return (
-      <Row>
-        {ListOrder()}
-        <Col>
-          <CreateOrder reloadOrderList={this.LoadOrderList()} />
-          <br />
-          <Table striped responsive>
-            <thead>
-              <tr>
-                <th />
-                <th><io.IoAndroidCart /> Restaurant Name</th>
-                <th><FontAwesome.FaExternalLink /> Restaurant Link</th>
-                <th><FontAwesome.FaUser /> Owner</th>
-                <th><FontAwesome.FaList /> Action</th>
-                <th><io.IoStatsBars /> Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
+      <Container>
+        <CreateOrder reloadOrderList={this.LoadOrderList()} />
+        <Row>
+          {ListOrder()}
+          <Col>
+            <br />
+            <Table striped responsive>
+              <thead>
+                <tr>
+                  <th />
+                  <th><FontAwesome.FaList /> Action</th>
+                  <th><io.IoAndroidCart />Name</th>
+                  <th><FontAwesome.FaExternalLink /> Restaurant Link</th>
+                  <th><FontAwesome.FaUser /> Owner</th>
+
+                  <th><io.IoStatsBars /> Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
             this.state.OrderList.map(List => (
               <tr key={List.OrderId}>
                 <th>{List.OrderId}</th>
-                <th>{List.RestaurantName}</th>
-                <th><a href={List.RestaurantUrl} target="_blank"><FontAwesome.FaExternalLinkSquare /> ลิงค์</a></th>
-                <th>{List.Creator}</th>
                 <th>
                   { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${List.CreateDate}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="info">สั่ง</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
                 </th>
+                <th>{List.RestaurantName}</th>
+                <th><a href={List.RestaurantUrl} target="_blank" rel="noopener noreferrer"><FontAwesome.FaExternalLinkSquare /> ลิงค์</a></th>
+                <th>{List.Creator}</th>
+
                 <th>{ List.Status === 'Pending' ? 'สั่งได้' : 'ปิดแล้ว' }</th>
               </tr>
               ))
               }
 
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

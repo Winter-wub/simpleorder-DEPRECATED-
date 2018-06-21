@@ -1,5 +1,4 @@
-import { Jumbotron, FormGroup, Col, Label, Input, Row, Button, InputGroup, Modal, ModalHeader, ModalBody, ModalFooter, Table, InputGroupAddon } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Container, Jumbotron, FormGroup, Col, Label, Input, Row, Button, InputGroup, Modal, ModalHeader, ModalBody, ModalFooter, Table, InputGroupAddon } from 'reactstrap';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -59,7 +58,7 @@ class OrderDetail extends Component {
   }
   async cancelOrder() {
     const { history, match } = this.props;
-    const url1 = `http://localhost:3001/api/order/delete/${match.params.id}`;
+    const url1 = `http://e7b2c628.ngrok.io/api/order/delete/${match.params.id}`;
     // console.log(typeof parseInt(this.props.match.params.id))
     await axios.delete(url1);
     history.push('/');
@@ -139,7 +138,6 @@ class OrderDetail extends Component {
   }
   render() {
     const { match } = this.props;
-
     const currentDishlist = () => {
       const menuList = this.state.order.MenuList;
 
@@ -182,9 +180,15 @@ class OrderDetail extends Component {
                   <tr key={dish.DishName}>
                     <th>{dish.DishName}</th>
                     <th>
-                      <Button onClick={() => this.toggle2(dish)}>
-                        ดูคนสั่ง
-                      </Button>
+
+                      {
+                       // dish.MenuList
+
+
+                        <Button onClick={() => this.toggle2(dish)}>
+                        ดูคนที่สั่งทั้งหมด
+                        </Button>
+                     }
                     </th>
                   </tr>
                  ))
@@ -229,61 +233,65 @@ class OrderDetail extends Component {
       );
     };
     return (
-      <div>
+      <div style={{ paddingTop: '9%' }}>
+        <div style={{ paddingLeft: '5%', paddingRight: '5%' }}>{DishList()}</div>
         <div>
           {modalList()}
-          <Link to="/"><Button className="Back-Btn" color="danger"><FontAwesome.FaArrowCircleOLeft />Back</Button></Link>
-
           <Jumbotron >
-            <Row>
-              <Col xs="6">
-                <FormGroup row>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">เมนู</InputGroupAddon>
-                    <div style={{ width: '60%' }}>{currentDishlist()}</div>
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">ชื่อคนสั่ง</InputGroupAddon>
-                    <Input type="text" name="Name" value={this.state.Name} onChange={this.handleEvent} />
-                    <div style={{ marginLeft: '200px' }} />
-                  </InputGroup>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>
-                    <Input type="number" name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleEvent} />
-                    <div style={{ marginLeft: '200px' }} />
-                  </InputGroup>
-                </FormGroup>
-                <Button color="success" onClick={() => this.addDish()}>เพิ่มรายการ</Button>
-              </Col>
-              <Col xs="6">
-                <Label>รายละเอียด Order</Label>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">ร้าน</InputGroupAddon>
-                  <Input name="RestaurantName" type="text" value={this.state.RestaurantName} onChange={this.handleEvent} />
-                </InputGroup>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">Link</InputGroupAddon>
-                  <Input name="RestaurantUrl" type="text" value={this.state.RestaurantUrl} onChange={this.handleEvent} />
-                </InputGroup>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">Order Creator</InputGroupAddon>
-                  <Input name="Creator" type="text" value={this.state.Creator} disable="true" />
-                </InputGroup>
-                <InputGroup>
-                  <Button color="danger" style={{ margin: '2%' }} onClick={() => this.cancelOrder()}>ยกเลิก Order</Button>
-                  <EditOrder
-                    Name={this.state.RestaurantName}
-                    Url={this.state.RestaurantUrl}
-                    Handle={this.handleEvent}
-                    id={match.params.id}
-                  />
-                  <Button color="success" style={{ margin: '2%' }} onClick={() => this.finishOrder()}>ปิด Order</Button>
-                </InputGroup>
-              </Col>
-            </Row>
-
+            <Container>
+              <Row>
+                <Col>
+                  <FormGroup row>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">เมนู</InputGroupAddon>
+                      <div style={{ width: '80%' }}>{currentDishlist()}</div>
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">ชื่อคนสั่ง</InputGroupAddon>
+                      <Input type="text" name="Name" value={this.state.Name} onChange={this.handleEvent} />
+                    </InputGroup>
+                    <InputGroup>
+                      <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>
+                      <Input type="number" name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleEvent} />
+                    </InputGroup>
+                  </FormGroup>
+                  <Button color="success" onClick={() => this.addDish()}><FontAwesome.FaPlus style={{ marginRight: '5%' }} /> เพิ่มเมนู</Button>
+                </Col>
+              </Row>
+            </Container>
           </Jumbotron>
-          <div style={{ paddingLeft: '5%', paddingRight: '5%' }}>{DishList()}</div>
+          <Jumbotron>
+            <Container>
+              <Row>
+                <Col>
+                  <Label>รายละเอียด Order</Label>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">ร้าน</InputGroupAddon>
+                    <Input name="RestaurantName" type="text" value={this.state.RestaurantName} onChange={this.handleEvent} />
+                  </InputGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">Link</InputGroupAddon>
+                    <Input name="RestaurantUrl" type="text" value={this.state.RestaurantUrl} onChange={this.handleEvent} />
+                  </InputGroup>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">Order Creator</InputGroupAddon>
+                    <Input name="Creator" type="text" value={this.state.Creator} disable="true" />
+                  </InputGroup>
+                  <InputGroup>
+                    <Button color="danger" style={{ margin: '2%' }} onClick={() => this.cancelOrder()}>ยกเลิก Order</Button>
+                    <EditOrder
+                      Name={this.state.RestaurantName}
+                      Url={this.state.RestaurantUrl}
+                      Handle={this.handleEvent}
+                      id={match.params.id}
+                    />
+                    <Button color="success" style={{ margin: '2%' }} onClick={() => this.finishOrder()}>ปิด Order</Button>
+                  </InputGroup>
+                </Col>
+              </Row>
+            </Container>
+          </Jumbotron>
+
         </div>
       </div>
     );
