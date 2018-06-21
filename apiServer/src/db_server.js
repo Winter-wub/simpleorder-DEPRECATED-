@@ -1,21 +1,16 @@
 import cors from 'cors';
-// const autoIncreement = require('mongodb-autoincrement');
-// const { MongoClient } = require('mongodb');
 import { MongoClient } from 'mongodb';
 
 const fastify = require('fastify')();
-
-// import fastify from 'fastify';
-// const moment = require('moment');
-
 const port = 1956;
-// const assert = require('assert');
+
 // Connection URL
 const url = 'mongodb://localhost:27017';
+
 // Database Name
 const dbName = 'NowOrder';
-fastify.use(cors());
 
+fastify.use(cors());
 fastify.register(require('./Modules/Order/'), (err) => {
   if (err) console.log(err);
 });
@@ -103,4 +98,3 @@ fastify.listen(port, 'localhost', (err) => {
   if (err) throw err;
   console.log(`Server Runing on ${port}`);
 });
-
