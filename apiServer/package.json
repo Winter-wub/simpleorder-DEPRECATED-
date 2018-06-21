@@ -5,6 +5,7 @@
   "main": "db_server.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "cors": "^2.8.4",
     "fastify": "^1.5.0",
     "fastify-mongodb": "^0.7.1",
@@ -15,6 +16,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-airbnb-base": "^12.1.0",
@@ -23,8 +25,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel src -d bin && babel-node bin/db_server.js",
-    "build": "babel src -d bin"
+    "start": "node bin/dev",
+    "clean": "rmdir dist /s /q",
+    "build": "npm run clean && mkdir dist && babel src -s -d dist",
+    "production": "npm run build && node bin/production"
   },
   "author": "waveblur",
   "license": "ISC"

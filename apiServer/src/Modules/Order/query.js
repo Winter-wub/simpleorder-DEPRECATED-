@@ -1,5 +1,5 @@
 import autoincrement from 'mongodb-autoincrement';
-import { connectDB } from './mongo';
+import { connectDB } from './../Database/mongo';
 
 const dbName = 'NowOrder';
 const colName = 'orders';
@@ -93,10 +93,53 @@ const deleteOrder = async (Id) => {
   }
 };
 
+const finishOrder = async (Id) => {
+  const OrderId = parseInt(Id, 10);
+  const client = await connectDB();
+  const db = client.db(dbName);
+  const col = db.collection(colName);
+  try {
+    const result = await col.update({ OrderId }, {
+      $set: {
+        Status: 'Ordered',
+      },
+    });
+    client.close();
+    return result;
+  } catch (error) {
+    return console.log(error.stack);
+  }
+};
+
+// const addtoOrder = async (Id, Name, DishName, unit) => {
+//   const OrderId = parseInt(Id, 10);
+//   const client = await connectDB();
+//   const db = client.db(dbName);
+//   const col = db.collection(colName);
+//   try {
+//     const check = await col.find({ OrderId, 'MenuList.DishName': DishName }).toArray();
+//     if (check.length <= 0) {
+//       const result = await col.findOneAndUpdate({ OrderId }, {
+//         $push: {
+//           MenuList: { DishName, List: [{ Name, unit }] },
+//         },
+//       });
+//       client.close();
+//       return result;
+//     } else {
+//       cosnt result = await col.findOne({ OrderId }, { MenuList: 1});
+//     }
+
+//   } catch (error) {
+//     return console.log(error.stack);
+//   }
+// };
+
 export {
   getOrders,
   getOrderByid,
   createOrder,
   editOrder,
   deleteOrder,
+  finishOrder,
 };
