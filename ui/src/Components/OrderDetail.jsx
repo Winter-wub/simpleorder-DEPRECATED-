@@ -49,7 +49,7 @@ class OrderDetail extends Component {
     this.toggle2 = this.toggle2.bind(this);
     this.addDish = this.addDish.bind(this);
     this.cancelOrder = this.cancelOrder.bind(this);
-    // this.finishOrder = this.finishOrder.bind(this);
+    this.finishOrder = this.finishOrder.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   componentDidMount() {
@@ -63,14 +63,14 @@ class OrderDetail extends Component {
       OrderId: parseInt(match.params.id, 10)
     });
   }
-  // async finishOrder() {
-  //   const {match, history} = this.props;
-  //   const post = {
-  //     OrderId: match.params.id
-  //   };
-  //   await axios.post(`${url}finish/`, post);
-  //   history.push('/');
-  // }
+  async finishOrder() {
+    const {match, history} = this.props;
+    const post = {
+      OrderId: match.params.id
+    };
+    await axios.post(`${url}finish/`, post);
+    history.push('/');
+  }
   async cancelOrder() {
     const {history, match} = this.props;
     const url1 = `${urlDelete}/${match.params.id}`;
@@ -214,7 +214,7 @@ class OrderDetail extends Component {
       </Modal>);
     };
     return (
-      <div style={{ paddingTop: '20%' }}>
+      <div style={{ paddingTop: '55px' }}>
         <Container>
           <Row>
             <Col>
