@@ -17,10 +17,14 @@ class CreateOrder extends Component {
       RestaurantName: '',
       RestaurantUrl: '-',
       Creator: '',
+      CloseDate: '',
     };
 
+    this.handleChangeName = this.handleChangeName.bind(this);
+    this.handleChangeURL = this.handleChangeURL.bind(this);
+    this.handleChangeOwner = this.handleChangeOwner.bind(this);
+    this.handleChangeCloseDate = this.handleChangeCloseDate.bind(this);
     this.toggle = this.toggle.bind(this);
-    this.handleTyping = this.handleTyping.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -30,22 +34,31 @@ class CreateOrder extends Component {
     });
   }
 
-  handleTyping(event) {
-    const input = {
-      [event.target.name]: event.target.value,
-    };
-    this.setState(input);
+  handleChangeName(e) {
+    this.setState({ RestaurantName: e.target.value });
   }
 
+  handleChangeURL(e) {
+    this.setState({ RestaurantUrl: e.target.value });
+  }
+
+  handleChangeOwner(e) {
+    this.setState({ Creator: e.target.value });
+  }
+  handleChangeCloseDate(e) {
+    this.setState({ CloseDate: e.target.value });
+  }
   async handleSubmit() {
     this.toggle();
     const post = {
       RestaurantName: this.state.RestaurantName,
       RestaurantUrl: this.state.RestaurantUrl,
       Creator: this.state.Creator,
+      CloseDate: this.state.CloseDate,
     };
+
     await axios.post(url, post);
-    await this.props.reloadOrderList;
+    await this.props.reloadOrderList();
   }
 
   render() {
@@ -55,10 +68,18 @@ class CreateOrder extends Component {
           <FontAwesome.FaPlus style={{ marginRight: '5%' }} />
           Create Order&nbsp;
         </Button>
+        <Button color="warning" onClick={this.props.reloadOrderList()}>
+          <FontAwesome.FaRecycle style={{ marginRight: '5%' }} />
+          Refresh&nbsp;
+        </Button>
         <ModalCreateOrder
           show={this.state.modal}
           toggle={this.toggle}
           handleSubmit={this.handleSubmit}
+          handleChangeName={this.handleChangeName}
+          handleChangeURL={this.handleChangeURL}
+          handleChangeOwner={this.handleChangeOwner}
+          handleChangeCloseDate={this.handleChangeCloseDate}
         />
       </div>
     );

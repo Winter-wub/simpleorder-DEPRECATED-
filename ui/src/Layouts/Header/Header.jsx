@@ -14,7 +14,7 @@ import './styles/brand.css';
 
 const Header = () => (
   <Navbar color="dark" light expand="md" className="Navbar" fixed="top">
-    <NavbarBrand className="pull-sm-right"><div className="Title">จะสั่งอะไรก็สั่ง <Badge color="danger">Now</Badge></div></NavbarBrand>
+    <NavbarBrand className="pull-sm-right"><div className="Title">แม่! วันนี้มีอะไรกิน <Badge color="danger">Now</Badge></div></NavbarBrand>
     <Nav className="ml-auto" navbar>
       <NavItem>
         <Link to="/"><Button color="danger">Home</Button></Link>

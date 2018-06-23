@@ -120,6 +120,7 @@ class OrderList extends Component {
                   <th />
                   <th><FontAwesome.FaList /> Action</th>
                   <th><io.IoAndroidCart />Name</th>
+                  <th><io.IoIosTimer />Close time</th>
                   <th><FontAwesome.FaExternalLink /> Link</th>
                   <th><FontAwesome.FaUser /> Owner</th>
                   <th><io.IoStatsBars /> Status</th>
@@ -135,6 +136,7 @@ class OrderList extends Component {
                   { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${List.CreateDate}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="success">สั่งอาหาร</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
                 </th>
                 <th>{List.RestaurantName}</th>
+                <td>{List.CloseDate}</td>
                 <th>
                   <a href={List.RestaurantUrl} target="_blank" rel="noopener noreferrer">
                     <FontAwesome.FaExternalLinkSquare /> ลิงค์
@@ -144,9 +146,9 @@ class OrderList extends Component {
                 {
                   List.Status === 'Pending'
                   ?
-                  ( <th style={{ color: 'green' }}>เปิดอยู่</th> )
+                  (<th style={{ color: 'green' }}>เปิดอยู่</th>)
                   :
-                  ( <th style={{ color: 'red' }}>ปิดแล้ว</th> )
+                  (<th style={{ color: 'red' }}>ปิดแล้ว</th>)
                 }
               </tr>
               ))
