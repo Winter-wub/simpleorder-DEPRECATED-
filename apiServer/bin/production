@@ -1,2 +1,2 @@
 require('babel-polyfill')
-require('./../dist/db_server.js')
+require('./../dist/index.js')
