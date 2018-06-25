@@ -1,28 +1,26 @@
 import {
   Container,
-  Jumbotron,
-  FormGroup,
   Col,
   Label,
-  Input,
   Row,
   Button,
-  InputGroup,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Table,
-  InputGroupAddon,
   Badge,
 } from 'reactstrap';
+import * as FontAwesome from 'react-icons/lib/fa';
 import axios from 'axios';
+import Creatable from 'react-select/lib/Creatable';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import * as FontAwesome from 'react-icons/lib/fa';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Creatable from 'react-select/lib/Creatable';
+import AddDish from './AddDish';
+
 //  import EditOrder from './EditOrder';
 
 import './styles/OrderDetail.css';
@@ -42,6 +40,7 @@ class OrderDetail extends Component {
       RestaurantName: '',
       RestaurantUrl: '',
       Creator: '',
+      modalDish: false,
     };
 
     this.GetOrderDetail = this.GetOrderDetail.bind(this);
@@ -52,9 +51,17 @@ class OrderDetail extends Component {
     this.cancelOrder = this.cancelOrder.bind(this);
     this.finishOrder = this.finishOrder.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.toggleModaladdDish = this.toggleModaladdDish.bind(this);
+    this.handleName = this.handleName.bind(this);
+    this.handleunit = this.handleunit.bind(this);
   }
   componentDidMount() {
     this.GetOrderDetail();
+  }
+  toggleModaladdDish() {
+    this.setState({
+      modalDish: !this.state.modalDish,
+    });
   }
   async editOrder() {
     const { match } = this.props;
@@ -88,6 +95,7 @@ class OrderDetail extends Component {
       unit: this.state.unit,
     });
     this.GetOrderDetail();
+    this.toggleModaladdDish();
   }
   async cancelUserDish(Name, index, DishName) {
     const { match } = this.props;
@@ -123,6 +131,16 @@ class OrderDetail extends Component {
     }
   }
 
+  handleName(e) {
+    this.setState({
+      Name: e.target.value,
+    });
+  }
+  handleunit(e) {
+    this.setState({
+      unit: e.target.value,
+    });
+  }
   handleEvent(event) {
     const input = {
       [event.target.name]: event.target.value,
@@ -277,41 +295,32 @@ class OrderDetail extends Component {
         </div>
         <div>
           {modalList()}
-          <Jumbotron>
-            <Container>
-              <Row>
-                <Col>
-                  <FormGroup row="row">
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">ชื่อเมนู&nbsp;</InputGroupAddon>
-                      <div style={{
-                          minWidth: '76%',
-                        }}
-                      >{currentDishlist()}
-                      </div>
-                    </InputGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">คนสั่ง&nbsp;&nbsp;</InputGroupAddon>
-                      <Input type="text" name="Name" value={this.state.Name} onChange={this.handleEvent} />
-                    </InputGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>
-                      <Input type="number" name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleEvent} />
-                    </InputGroup>
-                  </FormGroup>
-
-                  <Button
-                    color="success"
-                    style={{ width: '100%' }}
-                    onClick={() => this.addDish()}
-                  >
-                    <FontAwesome.FaPlus />
+          <AddDish
+            modalDish={this.state.modalDish}
+            toggleModaladdDish={this.toggleModaladdDish}
+            currentDishlist={currentDishlist}
+            Name={this.state.Name}
+            onChange={this.handleEvent}
+            unit={this.state.unit}
+            addDish={this.addDish}
+            handleName={this.handleName}
+            handleunit={this.handleunit}
+          />
+          <Button
+            color="success"
+            style={{
+               position: 'fixed',
+               bottom: '2%',
+               right: '10px',
+               borderRadius: '25px',
+               height: '100px',
+               fontSize: '25px',
+              }}
+            onClick={() => this.toggleModaladdDish()}
+          >
+            <FontAwesome.FaPlus />
                   สั่งอาหาร
-                  </Button>
-                </Col>
-              </Row>
-            </Container>
-          </Jumbotron>
+          </Button>
           <Button color="danger" style={{ width: '100%' }} onClick={() => this.finishOrder()}>ปิด Order</Button>
         </div>
       </div>);

@@ -56,7 +56,6 @@ class CreateOrder extends Component {
       Creator: this.state.Creator,
       CloseDate: this.state.CloseDate,
     };
-
     await axios.post(url, post);
     await this.props.reloadOrderList();
   }
