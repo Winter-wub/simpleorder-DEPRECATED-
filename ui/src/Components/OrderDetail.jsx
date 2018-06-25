@@ -16,7 +16,7 @@ import axios from 'axios';
 import Creatable from 'react-select/lib/Creatable';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import AddDish from './AddDish';
@@ -242,7 +242,6 @@ class OrderDetail extends Component {
 
       return (<Label />);
     };
-
     const modalList = () => {
       if (this.state.listorder.List !== undefined && this.state.listorder.List.length > 0) {
         return (
@@ -285,6 +284,9 @@ class OrderDetail extends Component {
                 <p><b>ชื่อร้าน:</b> {this.state.RestaurantName}</p>
                 <p><b>ลิงค์:</b> {this.state.RestaurantUrl}</p>
                 <p><b>คนสั่ง:</b> {this.state.Creator}</p>
+                <CopyToClipboard text={window.location.href}>
+                  <Button color="info">Copy URL to Clipboard</Button>
+                </CopyToClipboard>
               </div>
             </Col>
           </Row>
@@ -321,7 +323,7 @@ class OrderDetail extends Component {
             <FontAwesome.FaPlus />
                   สั่งอาหาร
           </Button>
-          <Button color="danger" style={{ width: '100%' }} onClick={() => this.finishOrder()}>ปิด Order</Button>
+          <Button color="danger" style={{ width: '50%', marginTop: '25%' }} onClick={() => this.finishOrder()}><FontAwesome.FaClose />ปิด Order</Button>
         </div>
       </div>);
   }

@@ -36,9 +36,9 @@ class EditOrder extends React.Component {
   }
 
   async finishOrder() {
-    const {match, history} = this.props;
+    const { match, history } = this.props;
     const post = {
-      OrderId: match.params.id
+      OrderId: match.params.id,
     };
     await axios.post(`${url}finish/`, post);
     history.push('/');
@@ -59,9 +59,14 @@ class EditOrder extends React.Component {
       <div>
         <ButtonGroup>
           <Button style={{ margin: '10%' }} onClick={this.toggle}>แก้ไข Order</Button>
-          <Button color="success" style={{
-              margin: '2%'
-            }} onClick={() => this.finishOrder()}>ปิด Order</Button>
+          <Button
+            color="success"
+            style={{
+              margin: '2%',
+            }}
+            onClick={() => this.finishOrder()}
+          >ปิด Order
+          </Button>
         </ButtonGroup>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle} />

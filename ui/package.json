@@ -8,6 +8,7 @@
     "moment": "^2.22.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.1",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-icons": "^2.2.7",
     "react-router-dom": "^4.3.1",

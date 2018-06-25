@@ -1,15 +1,17 @@
-import { Link } from 'react-router-dom';
 import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { Tooltip } from 'react-tippy';
-import axios from 'axios';
-import React, { Component } from 'react';
 import * as FontAwesome from 'react-icons/lib/fa';
 import * as io from 'react-icons/lib/io';
+import axios from 'axios';
+import moment from 'moment';
+import React, { Component } from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-tippy/dist/tippy.css';
 
-import CreateOrder from './CreateOrder';
 import { url } from '../config';
+import CreateOrder from './CreateOrder';
 
 class OrderList extends Component {
   constructor(props) {
@@ -107,15 +109,21 @@ class OrderList extends Component {
 
     return (
       <Container>
-        <Row style={{ paddingTop: 60 }}>
+        <Row style={{ paddingTop: '60px' }}>
           <CreateOrder reloadOrderList={this.LoadOrderList} />
         </Row>
-        <Row style={{ paddingTop: 20 }}>
-          <Button color="warning" onClick={() => this.LoadOrderList()}>
-            <FontAwesome.FaRecycle style={{ marginRight: '5%' }} />
-      Refresh&nbsp;
-          </Button>
-        </Row>
+        <Button
+          style={{
+            position: 'fixed',
+            bottom: '2%',
+            right: '10px',
+          }}
+          color="warning"
+          onClick={() => this.LoadOrderList()}
+        >
+          <FontAwesome.FaRefresh style={{ marginRight: '5%' }} />
+        </Button>
+
         <Row>
           {ListOrder()}
           <Col>
@@ -139,7 +147,7 @@ class OrderList extends Component {
               <tr key={List.OrderId}>
                 <th>{List.OrderId}</th>
                 <th>
-                  { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${List.CreateDate}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="success">สั่งอาหาร</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
+                  { List.Status === 'Pending' ? <Tooltip position="right" title={`สร้างเมื่อ${moment(List.CreateDate).format('LTS')}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="success">สั่งอาหาร</Button></Link></Tooltip> : <Button onClick={() => this.toggleModalListOrder(List.MenuList)}>ดูยอดคนสั่ง</Button>}
                 </th>
                 <th>{List.RestaurantName}</th>
                 <td>{List.CloseDate}</td>
@@ -148,7 +156,7 @@ class OrderList extends Component {
                     <FontAwesome.FaExternalLinkSquare /> ลิงค์
                   </a>
                 </th>
-                <th>{List.Creator}</th>
+                <td>{List.Creator}</td>
                 {
                   List.Status === 'Pending'
                   ?
@@ -157,7 +165,7 @@ class OrderList extends Component {
                   (<th style={{ color: 'red' }}>ปิดแล้ว</th>)
                 }
               </tr>
-              ))
+            ))
               }
 
               </tbody>
