@@ -110,6 +110,12 @@ class OrderList extends Component {
         <Row style={{ paddingTop: 60 }}>
           <CreateOrder reloadOrderList={this.LoadOrderList} />
         </Row>
+        <Row style={{ paddingTop: 20 }}>
+          <Button color="warning" onClick={() => this.LoadOrderList()}>
+            <FontAwesome.FaRecycle style={{ marginRight: '5%' }} />
+      Refresh&nbsp;
+          </Button>
+        </Row>
         <Row>
           {ListOrder()}
           <Col>

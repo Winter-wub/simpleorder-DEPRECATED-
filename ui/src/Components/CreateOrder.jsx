@@ -68,10 +68,6 @@ class CreateOrder extends Component {
           <FontAwesome.FaPlus style={{ marginRight: '5%' }} />
           Create Order&nbsp;
         </Button>
-        <Button color="warning" onClick={this.props.reloadOrderList()}>
-          <FontAwesome.FaRecycle style={{ marginRight: '5%' }} />
-          Refresh&nbsp;
-        </Button>
         <ModalCreateOrder
           show={this.state.modal}
           toggle={this.toggle}
