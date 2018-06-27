@@ -49,6 +49,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate) => {
       Status: 'Pending',
       CreateDate: new Date(),
       CloseDate,
+      Cost: 0,
     };
     const result = await col.insert(insertData);
     client.close();
@@ -134,6 +135,7 @@ const addtoOrder = async (Id, Name, DishName, unit) => {
     const menu = menuList.find(list => list.DishName === name);
     menu.List.push({ Name, unit });
     const result = await col.update({ OrderId, 'MenuList.DishName': DishName }, { $set: { 'MenuList.$.List': menu.List } });
+    client.close();
     return (result);
   } catch (error) {
     return console.log(error.stack);
@@ -146,7 +148,34 @@ const dishDel = async (Id, Name, DishName) => {
   const db = client.db(dbName);
   const col = db.collection(colName);
   const result = await col.update({ OrderId, 'MenuList.DishName': DishName }, { $pull: { 'MenuList.$.List': { Name } } });
+  client.close();
   return result;
+};
+
+const setCost = async (Id, DishName, Cost) => {
+  const OrderId = parseInt(Id, 10);
+  const client = await connectDB();
+  const db = client.db(dbName);
+  const col = db.collection(colName);
+  const docs = await col.findOne({ OrderId }, { MenuList: 1 });
+  let menuList = docs.MenuList;
+  menuList = menuList.map((list) => {
+    if (list.DishName === DishName) {
+      list.Cost = Cost;
+    }
+    return list;
+  });
+  const result = await col.update({ OrderId, 'MenuList.DishName': DishName }, { $set: { MenuList: menuList } });
+  client.close();
+  return result;
+};
+const setDelivercost = async (Id, Cost) => {
+  const OrderId = parseInt(Id, 10);
+  const client = await connectDB();
+  const db = client.db(dbName);
+  const col = db.collection(colName);
+  const docs = await col.update({ OrderId }, { $set: { Cost } });
+  return docs;
 };
 
 export {
@@ -158,4 +187,6 @@ export {
   finishOrder,
   addtoOrder,
   dishDel,
+  setCost,
+  setDelivercost,
 };

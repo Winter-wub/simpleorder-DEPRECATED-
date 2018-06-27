@@ -18,13 +18,15 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import alertify from 'alertify.js';
 
 import AddDish from './AddDish';
 
 //  import EditOrder from './EditOrder';
 
 import './styles/OrderDetail.css';
-import { url, urlDelete } from '../config';
+import { url, urlDelete, urlSetcost } from '../config';
+
 
 class OrderDetail extends Component {
   constructor(props) {
@@ -41,10 +43,11 @@ class OrderDetail extends Component {
       RestaurantUrl: '',
       Creator: '',
       modalDish: false,
+      cost: 0,
+      showSetcost : false,
     };
 
     this.GetOrderDetail = this.GetOrderDetail.bind(this);
-    this.handleEvent = this.handleEvent.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggle2 = this.toggle2.bind(this);
     this.addDish = this.addDish.bind(this);
@@ -54,6 +57,7 @@ class OrderDetail extends Component {
     this.toggleModaladdDish = this.toggleModaladdDish.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleunit = this.handleunit.bind(this);
+    this.handleCost = this.handleCost.bind(this);
   }
   componentDidMount() {
     this.GetOrderDetail();
@@ -71,13 +75,18 @@ class OrderDetail extends Component {
       OrderId: parseInt(match.params.id, 10),
     });
   }
-  async finishOrder() {
+  finishOrder() {
     const { match, history } = this.props;
+
     const post = {
       OrderId: match.params.id,
     };
-    await axios.post(`${url}finish/`, post);
-    history.push('/');
+
+    alertify.confirm('ยืนยันการปิด Order นี้', async () => {
+      await axios.post(`${url}finish/`, post);
+      history.push('/');
+    }, () => {
+    });
   }
   async cancelOrder() {
     const { history, match } = this.props;
@@ -89,28 +98,42 @@ class OrderDetail extends Component {
   async addDish() {
     const { match } = this.props;
     const url2 = url + match.params.id;
+    this.toggleModaladdDish();
     await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
       unit: this.state.unit,
+      cost: this.state.cost,
+    });
+    this.setState({
+      Name: '',
+      unit: 1,
+    });
+    if (this.state.cost !== 0) {
+      await axios.post(urlSetcost + match.params.id, { DishName: this.state.DishName, Cost: this.state.cost });
+    }
+    this.setState({
+      cost: 0,
+      showSetcost : false,
     });
     this.GetOrderDetail();
-    this.toggleModaladdDish();
   }
-  async cancelUserDish(Name, index, DishName) {
+  cancelUserDish(Name, index, DishName) {
     const { match } = this.props;
     const deleteData = {
       Name,
       DishName,
     };
-    const url2 = `${url}dishdel/${match.params.id}`;
-    await axios.post(url2, deleteData);
-    const renewListorder = this.state.listorder.List.slice(0, index)
-      .concat(this.state.listorder.List.slice(index + 1));
-    const currentListorder = this.state.listorder;
-    currentListorder.List = renewListorder;
-
-    this.setState({ listorder: currentListorder });
+    this.setState({ model2: false });
+    alertify.confirm('ยืนยันการลบ', async () => {
+      const url2 = `${url}dishdel/${match.params.id}`;
+      await axios.post(url2, deleteData);
+      const renewListorder = this.state.listorder.List.slice(0, index)
+        .concat(this.state.listorder.List.slice(index + 1));
+      const currentListorder = this.state.listorder;
+      currentListorder.List = renewListorder;
+      this.setState({ listorder: currentListorder });
+    });
   }
   toggle2(list) {
     this.setState({
@@ -127,8 +150,15 @@ class OrderDetail extends Component {
 
   handleChange(newValue) {
     if (newValue != null) {
-      this.setState({ DishName: newValue.value });
+      this.setState({
+        DishName: newValue.value,
+      });
     }
+  }
+  handleCost(e) {
+    this.setState({
+      cost: e.target.value,
+    });
   }
 
   handleName(e) {
@@ -141,15 +171,7 @@ class OrderDetail extends Component {
       unit: e.target.value,
     });
   }
-  handleEvent(event) {
-    const input = {
-      [event.target.name]: event.target.value,
-    };
-    this.setState(input);
-    if (event.target.name === 'DishName' && event.target.value === '-') {
-      this.setState({ DishName: '' });
-    }
-  }
+
   async GetOrderDetail() {
     const { match } = this.props;
     const ResonseData = await axios(url + match.params.id);
@@ -179,6 +201,7 @@ class OrderDetail extends Component {
                 <tr>
                   <th>ชื่อเมนู</th>
                   <th>จำนวนคนสั่ง</th>
+                  <th>ราคาเมนู</th>
                   <th>คนสั่ง</th>
                 </tr>
               </thead>
@@ -191,6 +214,7 @@ class OrderDetail extends Component {
                     <tr key={dish.DishName}>
                       <td>{dish.DishName}</td>
                       <td>{dish.List.length}</td>
+                      <td>{dish.Cost}</td>
                       <td>
                         {
                             dish.List.length < 10 ?
@@ -232,6 +256,9 @@ class OrderDetail extends Component {
                                 ดูคนที่สั่งทั้งหมด
                               </Button>
                         }
+                      </td>
+                      <td>
+                        <Button color="warning" onClick={() => this.toggle2(dish)}>Edit</Button>
                       </td>
                     </tr>))
               }
@@ -282,10 +309,10 @@ class OrderDetail extends Component {
             <Col>
               <div style={{ textAlign: 'left' }}>
                 <p><b>ชื่อร้าน:</b> {this.state.RestaurantName}</p>
-                <p><b>ลิงค์:</b> {this.state.RestaurantUrl}</p>
+                <p><b>ลิงค์:</b><a target="_blank" rel="noopener noreferrer" href={this.state.RestaurantUrl} style={{ paddingLeft: '8px' }}><FontAwesome.FaExternalLink /></a></p>
                 <p><b>คนสั่ง:</b> {this.state.Creator}</p>
                 <CopyToClipboard text={window.location.href}>
-                  <Button color="info">Copy URL to Clipboard</Button>
+                  <Button color="info">คัดลอก url หน้านี้</Button>
                 </CopyToClipboard>
               </div>
             </Col>
@@ -302,11 +329,13 @@ class OrderDetail extends Component {
             toggleModaladdDish={this.toggleModaladdDish}
             currentDishlist={currentDishlist}
             Name={this.state.Name}
-            onChange={this.handleEvent}
             unit={this.state.unit}
             addDish={this.addDish}
             handleName={this.handleName}
             handleunit={this.handleunit}
+            handleCost={this.handleCost}
+            cost={this.state.Cost}
+            show={this.state.showSetcost}
           />
           <Button
             color="success"

@@ -3,6 +3,7 @@
   "version": "0.1.6",
   "private": false,
   "dependencies": {
+    "alertify.js": "^1.0.12",
     "axios": "^0.18.0",
     "bootstrap": "^4.1.1",
     "moment": "^2.22.2",
@@ -11,12 +12,14 @@
     "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-icons": "^2.2.7",
+    "react-microlink": "^2.1.4",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-select": "^2.0.0-beta.6",
     "react-time-picker": "^2.4.2",
     "react-tippy": "^1.2.2",
-    "reactstrap": "^6.1.0"
+    "reactstrap": "^6.1.0",
+    "styled-components": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",

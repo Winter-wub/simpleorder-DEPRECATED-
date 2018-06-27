@@ -1,4 +1,4 @@
-import { getOrders, getOrderByid, createOrder, editOrder, deleteOrder, finishOrder, addtoOrder, dishDel } from './query';
+import { getOrders, getOrderByid, createOrder, editOrder, deleteOrder, finishOrder, addtoOrder, dishDel, setCost, setDelivercost } from './query';
 
 module.exports = (fastify, option, next) => {
   fastify.get('/api/Orders/', async (req, reply) => {
@@ -52,5 +52,20 @@ module.exports = (fastify, option, next) => {
     const data = await dishDel(id, Name, DishName);
     reply.send(data);
   });
+
+  fastify.post('/api/Orders/setCost/:id', async (req, reply) => {
+    const { id } = req.params;
+    const { DishName, Cost } = req.body;
+    const data = await setCost(id, DishName, Cost);
+    reply.send(data);
+  });
+
+  fastify.post('/api/Orders/setCost/dev/:id', async (req, reply) => {
+    const { id } = req.params;
+    const { Cost } = req.body;
+    const data = await setDelivercost(id, Cost);
+    reply.send(data);
+  });
+
   next();
 };
