@@ -203,6 +203,7 @@ class OrderDetail extends Component {
                   <th>จำนวนคนสั่ง</th>
                   <th>ราคาเมนู</th>
                   <th>คนสั่ง</th>
+                  <th />
                 </tr>
               </thead>
               <tbody>

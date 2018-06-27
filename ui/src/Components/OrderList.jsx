@@ -67,6 +67,13 @@ class OrderList extends Component {
         <ModalBody>
           {
             <Table>
+              <thead>
+                <tr>
+                  <th>เมนู</th>
+                  <th>ราคา</th>
+                  <th />
+                </tr>
+              </thead>
               <tbody>
                 {
                   !this.state.listOrder.length > 0 ? '' : this.state.listOrder.map(list => (
