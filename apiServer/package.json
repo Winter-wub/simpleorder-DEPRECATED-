@@ -5,6 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "cors": "^2.8.4",
     "fastify": "^1.5.0",
     "fastify-mongodb": "^0.7.1",
