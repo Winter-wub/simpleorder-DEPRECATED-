@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const uri = 'mongodb://simpleorder-mongodb:27019'
+const uri = 'mongodb://simpleorder-mongodb:27017'
 const connectDB = async () => {
   try {
     const db = await MongoClient.connect(uri);
