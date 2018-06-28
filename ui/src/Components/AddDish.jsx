@@ -22,11 +22,11 @@ const AddDishModal = props => (
           <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>
           <Input type="number" name="unit" min="1" max="50" value={props.unit} onChange={props.handleunit} />*
         </InputGroup>
-       <InputGroup>
+        <InputGroup>
           <InputGroupAddon addonType="prepend">ราคา(หากต้องการเเก้ไขหรือสั่งเมนูนี้ครั้งแรก)</InputGroupAddon>
-          <Input type="number" name="unit" value={props.cost} onChange={props.handleCost} /> 
-        </InputGroup> 
-      </FormGroup>  
+          <Input type="number" name="unit" value={props.cost} onChange={props.handleCost} />
+        </InputGroup>
+      </FormGroup>
     </ModalBody>
     <ModalFooter>
       <Button color="success"onClick={props.addDish}>Add</Button>

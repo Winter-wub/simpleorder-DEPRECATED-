@@ -1,7 +1,9 @@
+const ip = 'localhost';
+const port = '3334';
 const configs = {
-  url: 'http://localhost:3334/api/Orders/',
-  urlDelete: 'http://localhost:3334/api/order/delete',
-  urlSetcost: 'http://localhost:3334/api/Orders/setCost/',
+  url: `http://${ip}:${port}/api/Orders/`,
+  urlDelete: `http://${ip}:${port}/api/order/delete`,
+  urlSetcost: `http://${ip}:${port}/api/Orders/setCost/`,
 };
 
 module.exports = configs;

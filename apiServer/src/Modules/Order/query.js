@@ -75,6 +75,7 @@ const editOrder = async (resName, resUrl, id) => {
         RestaurantUrl: updateData.Url,
       },
     });
+    client.close();
     return result;
   } catch (error) {
     return console.log(error.stack);
@@ -175,6 +176,7 @@ const setDelivercost = async (Id, Cost) => {
   const db = client.db(dbName);
   const col = db.collection(colName);
   const docs = await col.update({ OrderId }, { $set: { Cost } });
+  client.close();
   return docs;
 };
 
