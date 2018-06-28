@@ -1,9 +1,9 @@
-const ip = 'http://192.168.1.250';
+const host = 'http://192.168.1.250';
 const port = '3334';
 const configs = {
-  url: `http://${ip}:${port}/api/Orders/`,
-  urlDelete: `http://${ip}:${port}/api/order/delete`,
-  urlSetcost: `http://${ip}:${port}/api/Orders/setCost/`,
+  url: `${host}:${port}/api/Orders/`,
+  urlDelete: `${host}:${port}/api/order/delete`,
+  urlSetcost: `${host}:${port}/api/Orders/setCost/`,
 };
 
 module.exports = configs;
