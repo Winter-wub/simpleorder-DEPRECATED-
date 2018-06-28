@@ -1,7 +1,9 @@
+const ip = '127.0.0.1';
+const port = '3001';
 const configs = {
-  url: 'https://c14bbfae.ngrok.io/api/Orders/',
-  urlDelete: 'https://c14bbfae.ngrok.io/api/order/delete',
-  urlSetcost: 'https://c14bbfae.ngrok.io/api/Orders/setCost/',
+  url: `http://${ip}:${port}/api/Orders/`,
+  urlDelete: `http://${ip}:${port}/api/order/delete`,
+  urlSetcost: `http://${ip}:${port}/api/Orders/setCost/`,
 };
 
 module.exports = configs;
