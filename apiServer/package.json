@@ -12,9 +12,7 @@
     "fastify-mongodb": "^0.7.1",
     "moment": "^2.22.2",
     "mongodb": "^3.0.10",
-    "mongodb-autoincrement": "^1.0.1"
-  },
-  "devDependencies": {
+    "mongodb-autoincrement": "^1.0.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-polyfill": "^6.26.0",
@@ -29,9 +27,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node bin/dev",
-    "clean": "rm -Rf dist",
-    "build": "npm run clean && mkdir dist && babel src -s -d dist",
-    "production": "npm run build && node bin/production"
+    "clean": "rm -rf dist",
+    "build": "babel src -s -d dist --presets es2015"
   },
   "author": "waveblur",
   "license": "ISC"
