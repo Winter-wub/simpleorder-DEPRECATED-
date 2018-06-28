@@ -31,6 +31,8 @@ services:
       - ./node/daemon-app.js:/app/daemon-app.js
     ports:
       - 3334:3001
+    links:
+      - simpleorder-mongodb
     working_dir: /app
     environment:
       NODE_ENV: "production"
