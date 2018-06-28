@@ -13,7 +13,8 @@ services:
     environment:
       NODE_ENV: "production"
     command: >
-        sh -c "npm install --production -g serve
+        sh -c "npm install
+        && npm install -g serve
         && npm run build
         && serve -s build"
     logging:
@@ -35,7 +36,8 @@ services:
       NODE_ENV: "production"
     command: >
         sh -c "npm install --production
-        && npm run production
+        && npm run clean
+        && npm run build
         && NODE_ENV=production pm2 start -f dist/index.js --name="api" --instances 1 --max-memory-restart 150M
         && pm2-docker start daemon-app.js --instances 1"
     logging:

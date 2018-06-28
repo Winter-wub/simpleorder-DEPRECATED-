@@ -13,7 +13,7 @@ fastify.get('/api/healthcheck', async (req, reply) => {
   reply.send({ data: 'ok' });
 });
 
-fastify.listen(port, 'localhost', (err) => {
+fastify.listen(port, '0.0.0.0', (err) => {
   if (err) throw err;
-  console.log(`Server Runing on ${port}`);
+  console.log(`Server Running on ${port}`);
 });
