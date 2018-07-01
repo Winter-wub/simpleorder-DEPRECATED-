@@ -10,6 +10,7 @@ import {
   ModalFooter,
   Table,
   Badge,
+  Input,
 } from 'reactstrap';
 import * as FontAwesome from 'react-icons/lib/fa';
 import axios from 'axios';
@@ -37,7 +38,8 @@ class OrderDetail extends Component {
       Name: '',
       unit: 1,
       modal: false,
-      model2: false,
+      modal2: false,
+      modal3: false,
       listorder: 0,
       RestaurantName: '',
       RestaurantUrl: '',
@@ -50,6 +52,7 @@ class OrderDetail extends Component {
     this.GetOrderDetail = this.GetOrderDetail.bind(this);
     this.toggle = this.toggle.bind(this);
     this.toggle2 = this.toggle2.bind(this);
+    this.toggle3 = this.toggle3.bind(this);
     this.addDish = this.addDish.bind(this);
     this.cancelOrder = this.cancelOrder.bind(this);
     this.finishOrder = this.finishOrder.bind(this);
@@ -58,6 +61,7 @@ class OrderDetail extends Component {
     this.handleName = this.handleName.bind(this);
     this.handleunit = this.handleunit.bind(this);
     this.handleCost = this.handleCost.bind(this);
+    
   }
   componentDidMount() {
     this.GetOrderDetail();
@@ -95,6 +99,31 @@ class OrderDetail extends Component {
     await axios.delete(url1);
     history.push('/');
   }
+
+  async addDish2() {
+    const { match } = this.props;
+    const url2 = url + match.params.id;
+    this.toggle3();
+    await axios.post(url2, {
+      Name: this.state.Name,
+      DishName: this.state.DishName,
+      unit: this.state.unit,
+      cost: this.state.cost,
+    });
+    this.setState({
+      Name: '',
+      unit: 1,
+    });
+    if (this.state.cost !== 0) {
+      await axios.post(urlSetcost + match.params.id, { DishName: this.state.DishName, Cost: this.state.cost });
+    }
+    this.setState({
+      cost: 0,
+      showSetcost : false,
+    });
+    this.GetOrderDetail();
+  }
+
   async addDish() {
     const { match } = this.props;
     const url2 = url + match.params.id;
@@ -124,7 +153,7 @@ class OrderDetail extends Component {
       Name,
       DishName,
     };
-    this.setState({ model2: false });
+    this.setState({ modal2: false });
     alertify.confirm('ยืนยันการลบ', async () => {
       const url2 = `${url}dishdel/${match.params.id}`;
       await axios.post(url2, deleteData);
@@ -137,15 +166,17 @@ class OrderDetail extends Component {
   }
   toggle2(list) {
     this.setState({
-      model2: !this.state.model2,
+      modal2: !this.state.modal2,
       listorder: list,
     });
   }
 
   toggle() {
-    this.setState({
-      modal: !this.state.modal,
-    });
+    this.setState({ modal: !this.state.modal });
+  }
+
+  toggle3(DishName) {
+    this.setState({ modal3: !this.state.modal3, DishName: DishName  });
   }
 
   handleChange(newValue) {
@@ -259,6 +290,7 @@ class OrderDetail extends Component {
                         }
                       </td>
                       <td>
+                        <Button color="success" style={{marginRight : '10px'}} onClick={() => this.toggle3(dish.DishName)}><FontAwesome.FaPlus /></Button>
                         <Button color="warning" onClick={() => this.toggle2(dish)}>Edit</Button>
                       </td>
                     </tr>))
@@ -273,7 +305,7 @@ class OrderDetail extends Component {
     const modalList = () => {
       if (this.state.listorder.List !== undefined && this.state.listorder.List.length > 0) {
         return (
-          <Modal isOpen={this.state.model2} toggle={this.toggle2}>
+          <Modal isOpen={this.state.modal2} toggle={this.toggle2}>
             <ModalHeader toggle={this.toggle2}>
               {this.state.listorder.DishName}
             </ModalHeader>
@@ -297,12 +329,29 @@ class OrderDetail extends Component {
           </Modal>);
       }
       return (
-        <Modal isOpen={this.state.model2} toggle={this.toggle2}>
+        <Modal isOpen={this.state.modal2} toggle={this.toggle2}>
           <ModalHeader toggle={this.toggle2} />
           <ModalBody>ดูเหมือนทุกคนเปลี่ยนใจหมดมั้งน่ะ</ModalBody>
           <ModalFooter />
         </Modal>);
     };
+
+    const PlusButton = () => {
+      return (
+        <Modal isOpen={this.state.modal3} toggle={this.toggle3}>
+          <ModalBody>
+            <Label>ชื่อ</Label>
+            <Input type='text' name="Name" values={this.state.Name} onChange={this.handleName} />
+            <Label>จำนวน</Label>
+            <Input type='number' name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleunit} />
+          </ModalBody>
+          <ModalFooter>
+            <Button color='success' onClick={() => this.addDish2()}>เพิ่ม</Button>
+            <Button color="default" onClick={this.toggle3}>ยกเลิก</Button>
+          </ModalFooter>
+        </Modal>
+      )
+    }
     return (
       <div style={{ paddingTop: '55px' }}>
         <Container>
@@ -355,6 +404,7 @@ class OrderDetail extends Component {
           </Button>
           <Button color="danger" style={{ width: '50%', marginTop: '25%' }} onClick={() => this.finishOrder()}><FontAwesome.FaClose />ปิด Order</Button>
         </div>
+        {PlusButton()}
       </div>);
   }
 }
