@@ -10,12 +10,14 @@ class SetCost extends Component {
     this.state = {
       MenuList: [],
       cost: 0,
+      count: 0,
     };
     this.GetOrderDetail = this.GetOrderDetail.bind(this);
     this.handleCost = this.handleCost.bind(this);
   }
-  componentDidMount() {
-    this.GetOrderDetail();
+  async componentDidMount() {
+    await this.GetOrderDetail();
+    await this.Ccount();
   }
   async GetOrderDetail() {
     const { match } = this.props;
@@ -47,10 +49,20 @@ class SetCost extends Component {
     axios.post(`${urlSetcost}dev/${match.params.id}`, { Cost: this.state.cost });
   }
 
+  Ccount(){
+    let count = 0;
+    this.state.MenuList.map(list => (
+      list.List.map(peo => (
+        count+=1
+      ))));
+    this.setState({count : count})
+  }
+
   render() {
     return (
       <div style={{ paddingTop: '60px' }}>
         <h3>Order : {this.props.match.params.id}</h3>
+        <h5>คนที่สั่งทั้งหมด : {this.state.count} </h5>
         <Table>
           <thead>
             <tr>
@@ -76,13 +88,14 @@ class SetCost extends Component {
                         </tr>
                       </thead>
                       <tbody>{
-                  list.List.map(people => (
-                    <tr key={people}>
+                  list.List.map(people => {
+                    //this.Ccount();
+                    return (<tr key={people}>
                       <td>{people.Name}</td>
                       <td>{people.unit}</td>
                       <td>{(people.unit * list.Cost) + parseInt(this.state.cost, 10)}</td>
-                    </tr>
-                  ))
+                    </tr> )
+                  })
                 }
                       </tbody>
                     </Table>

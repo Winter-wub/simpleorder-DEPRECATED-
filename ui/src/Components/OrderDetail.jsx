@@ -47,6 +47,7 @@ class OrderDetail extends Component {
       modalDish: false,
       cost: 0,
       showSetcost : false,
+      Status : '',
     };
 
     this.GetOrderDetail = this.GetOrderDetail.bind(this);
@@ -205,13 +206,20 @@ class OrderDetail extends Component {
 
   async GetOrderDetail() {
     const { match } = this.props;
-    const ResonseData = await axios(url + match.params.id);
+    const ResponseData = await axios(url + match.params.id);
     this.setState({
-      order: ResonseData.data[0],
-      Creator: ResonseData.data[0].Creator,
-      RestaurantName: ResonseData.data[0].RestaurantName,
-      RestaurantUrl: ResonseData.data[0].RestaurantUrl,
+      order: ResponseData.data[0],
+      Creator: ResponseData.data[0].Creator,
+      RestaurantName: ResponseData.data[0].RestaurantName,
+      RestaurantUrl: ResponseData.data[0].RestaurantUrl,
+      Status: ResponseData.data[0].Status,
     });
+
+    if(this.state.Status === 'Ordered'){
+      const {history} = this.props;
+      alertify.alert('Order ปิดแล้ว')
+      history.push('/');
+    }
   }
   render() {
     const currentDishlist = () => {
