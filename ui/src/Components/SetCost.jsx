@@ -18,6 +18,7 @@ class SetCost extends Component {
   async componentDidMount() {
     await this.GetOrderDetail();
     await this.Ccount();
+    
   }
   async GetOrderDetail() {
     const { match } = this.props;

@@ -65,7 +65,11 @@ class OrderDetail extends Component {
     
   }
   componentDidMount() {
-    this.GetOrderDetail();
+    
+    setInterval(()=>{
+      this.GetOrderDetail();
+      this.forceUpdate();
+    },8000)
   }
   toggleModaladdDish() {
     this.setState({
