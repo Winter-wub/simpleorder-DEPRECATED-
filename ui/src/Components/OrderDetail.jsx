@@ -69,7 +69,7 @@ class OrderDetail extends Component {
     setInterval(()=>{
       this.GetOrderDetail();
       this.forceUpdate();
-    },8000)
+    },10000)
   }
   toggleModaladdDish() {
     this.setState({
@@ -109,6 +109,12 @@ class OrderDetail extends Component {
     const { match } = this.props;
     const url2 = url + match.params.id;
     this.toggle3();
+    await this.GetOrderDetail();
+    if(this.state.Status === 'Ordered'){
+      const {history} = this.props;
+      alertify.alert('Order ปิดแล้ว')
+      history.push('/');
+    }
     await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
@@ -133,6 +139,12 @@ class OrderDetail extends Component {
     const { match } = this.props;
     const url2 = url + match.params.id;
     this.toggleModaladdDish();
+    await this.GetOrderDetail();
+    if(this.state.Status === 'Ordered'){
+      const {history} = this.props;
+      alertify.alert('Order ปิดแล้ว')
+      history.push('/');
+    }
     await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
