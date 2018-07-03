@@ -55,6 +55,7 @@ class OrderDetail extends Component {
     this.toggle2 = this.toggle2.bind(this);
     this.toggle3 = this.toggle3.bind(this);
     this.addDish = this.addDish.bind(this);
+    this.addDish2 = this.addDish2.bind(this);
     this.cancelOrder = this.cancelOrder.bind(this);
     this.finishOrder = this.finishOrder.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -108,13 +109,14 @@ class OrderDetail extends Component {
   async addDish2() {
     const { match } = this.props;
     const url2 = url + match.params.id;
-    this.toggle3();
+    
     await this.GetOrderDetail();
     if(this.state.Status === 'Ordered'){
       const {history} = this.props;
       alertify.alert('Order ปิดแล้ว')
       history.push('/');
     }
+   
     await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
@@ -123,7 +125,7 @@ class OrderDetail extends Component {
     });
     this.setState({
       Name: '',
-      unit: 1,
+      unit: 1,  
     });
     if (this.state.cost !== 0) {
       await axios.post(urlSetcost + match.params.id, { DishName: this.state.DishName, Cost: this.state.cost });
@@ -132,7 +134,8 @@ class OrderDetail extends Component {
       cost: 0,
       showSetcost : false,
     });
-    this.GetOrderDetail();
+    await this.toggle3();
+    await this.GetOrderDetail();
   }
 
   async addDish() {
@@ -162,7 +165,7 @@ class OrderDetail extends Component {
       cost: 0,
       showSetcost : false,
     });
-    this.GetOrderDetail();
+    await this.GetOrderDetail();
   }
   cancelUserDish(Name, index, DishName) {
     const { match } = this.props;
@@ -193,7 +196,11 @@ class OrderDetail extends Component {
   }
 
   toggle3(DishName) {
-    this.setState({ modal3: !this.state.modal3, DishName: DishName  });
+    
+    this.setState({ 
+      modal3: !this.state.modal3, 
+      DishName: DishName  });
+   
   }
 
   handleChange(newValue) {
@@ -363,6 +370,7 @@ class OrderDetail extends Component {
     const PlusButton = () => {
       return (
         <Modal isOpen={this.state.modal3} toggle={this.toggle3}>
+       
           <ModalBody>
             <Label>ชื่อ</Label>
             <Input type='text' name="Name" values={this.state.Name} onChange={this.handleName} />
@@ -371,7 +379,7 @@ class OrderDetail extends Component {
           </ModalBody>
           <ModalFooter>
             <Button color='success' onClick={() => this.addDish2()}>เพิ่ม</Button>
-            <Button color="default" onClick={this.toggle3}>ยกเลิก</Button>
+            <Button color="default" onClick={() => this.toggle3}>ยกเลิก</Button>
           </ModalFooter>
         </Modal>
       )
