@@ -16,7 +16,7 @@ const AddDishModal = props => (
         </InputGroup>
         <InputGroup>
           <InputGroupAddon addonType="prepend">คนสั่ง&nbsp;&nbsp;</InputGroupAddon>
-          <Input type="text" name="Name" value={props.Name} onChange={props.handleName} require />*
+          <Input type="text" name="Name" maxLength="10" value={props.Name} onChange={props.handleName} require />*
         </InputGroup>
         <InputGroup>
           <InputGroupAddon addonType="prepend">จำนวน</InputGroupAddon>

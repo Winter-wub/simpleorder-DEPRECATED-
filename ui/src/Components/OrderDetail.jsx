@@ -28,7 +28,6 @@ import AddDish from './AddDish';
 import './styles/OrderDetail.css';
 import { url, urlDelete, urlSetcost } from '../config';
 
-
 class OrderDetail extends Component {
   constructor(props) {
     super(props);
@@ -63,14 +62,10 @@ class OrderDetail extends Component {
     this.handleName = this.handleName.bind(this);
     this.handleunit = this.handleunit.bind(this);
     this.handleCost = this.handleCost.bind(this);
-    
   }
+  
   componentDidMount() {
     this.GetOrderDetail();
-    setInterval(()=>{
-      this.GetOrderDetail();
-      this.forceUpdate();
-    },10000)
   }
   toggleModaladdDish() {
     this.setState({
@@ -113,7 +108,7 @@ class OrderDetail extends Component {
     await this.GetOrderDetail();
     if(this.state.Status === 'Ordered'){
       const {history} = this.props;
-      alertify.alert('Order ปิดแล้ว')
+      // alertify.alert('Order ปิดแล้ว');
       history.push('/');
     }
    
@@ -135,7 +130,7 @@ class OrderDetail extends Component {
       showSetcost : false,
     });
     await this.toggle3();
-    await this.GetOrderDetail();
+    this.GetOrderDetail();
   }
 
   async addDish() {
@@ -145,7 +140,7 @@ class OrderDetail extends Component {
     await this.GetOrderDetail();
     if(this.state.Status === 'Ordered'){
       const {history} = this.props;
-      alertify.alert('Order ปิดแล้ว')
+      // alertify.alert('Order ปิดแล้ว')
       history.push('/');
     }
     await axios.post(url2, {
@@ -240,7 +235,7 @@ class OrderDetail extends Component {
 
     if(this.state.Status === 'Ordered'){
       const {history} = this.props;
-      alertify.alert('Order ปิดแล้ว')
+      // alertify.alert('Order ปิดแล้ว')
       history.push('/');
     }
   }
@@ -373,13 +368,13 @@ class OrderDetail extends Component {
        
           <ModalBody>
             <Label>ชื่อ</Label>
-            <Input type='text' name="Name" values={this.state.Name} onChange={this.handleName} />
+            <Input type='text' name="Name" maxLength="10" values={this.state.Name} onChange={this.handleName} />
             <Label>จำนวน</Label>
             <Input type='number' name="unit" min="1" max="50" value={this.state.unit} onChange={this.handleunit} />
           </ModalBody>
           <ModalFooter>
             <Button color='success' onClick={() => this.addDish2()}>เพิ่ม</Button>
-            <Button color="default" onClick={() => this.toggle3}>ยกเลิก</Button>
+            <Button color="default" onClick={this.toggle3}>ยกเลิก</Button>
           </ModalFooter>
         </Modal>
       )

@@ -27,7 +27,7 @@ class ModalCreateOrder extends Component {
             <br />
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <Label for="Creator" className="mr-sm-2">ชื่อคนสั่ง</Label>
-              <Input type="url" name="Creator" id="Creator" placeholder="" onChange={this.props.handleChangeOwner} />
+              <Input type="text" maxLength="10" name="Creator" id="Creator" placeholder="" onChange={this.props.handleChangeOwner} />
             </FormGroup>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <Label for="CloseDate" className="mr-sm-2">เวลาปิด Order</Label>
