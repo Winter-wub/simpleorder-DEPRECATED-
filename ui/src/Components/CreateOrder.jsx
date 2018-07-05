@@ -55,6 +55,7 @@ class CreateOrder extends Component {
       RestaurantUrl: this.state.RestaurantUrl,
       Creator: this.state.Creator,
       CloseDate: this.state.CloseDate,
+      url: window.location.href
     };
     await axios.post(url, post);
     await this.props.reloadOrderList();
