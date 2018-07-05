@@ -1,5 +1,7 @@
 import autoincrement from 'mongodb-autoincrement';
-import { connectDB } from './../Database/mongo';
+import { connectDB } from '../Database/mongo';
+import line from './line';
+import Urlshortener from './Urlshortener';
 
 const dbName = 'NowOrder';
 const colName = 'orders';
@@ -28,10 +30,11 @@ const getOrderByid = async (Id) => {
   }
 };
 
-const createOrder = async (resName, resUrl, creator, CloseDate) => {
+const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
   const client = await connectDB();
   const db = client.db(dbName);
   const col = db.collection(colName);
+  let id;
   try {
     const autoindex = () => new Promise((resolve, reject) => {
       autoincrement.getNextSequence(db, colName, (err, autoIndex) => {
@@ -40,6 +43,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate) => {
       });
     });
     const genId = await autoindex();
+    id = genId;
     const insertData = {
       RestaurantName: resName,
       RestaurantUrl: resUrl,
@@ -53,6 +57,8 @@ const createOrder = async (resName, resUrl, creator, CloseDate) => {
     };
     const result = await col.insert(insertData);
     client.close();
+    const msg = `\nร้าน ${resName}\nลิงค์ร้าน: ${await Urlshortener(resUrl)}\nสร้างโดย ${creator}\nปิดเวลา : ${CloseDate}\nกดสั่งลิงค์นี้\n${`${url}order/${id}`}`;
+    await line(msg);
     return result;
   } catch (error) {
     return console.log(error.stack);
