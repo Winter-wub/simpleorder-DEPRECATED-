@@ -31,7 +31,7 @@ class ModalCreateOrder extends Component {
             </FormGroup>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <Label for="CloseDate" className="mr-sm-2">เวลาปิด Order</Label>
-              <Input type="time" name="CloseDate" id="CloseDate" min={'"15:04"'} onChange={this.props.handleChangeCloseDate} />
+              <Input type="time" name="CloseDate" id="CloseDate" onChange={this.props.handleChangeCloseDate} />
             </FormGroup>
           </Form>
         </ModalBody>
