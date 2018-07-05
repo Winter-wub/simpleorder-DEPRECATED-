@@ -58,7 +58,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
     };
     const result = await col.insert(insertData);
     client.close();
-    const msg = `\nร้าน ${resName}\nลิงค์ร้าน: ${await Urlshortener(resUrl)}\nสร้างโดย ${creator}\nปิดเวลา : ${CloseDate}\nสั่งที่ลิงค์นี้\n${`${url}order/${id}`}`;
+    const msg = `\nร้าน ${resName} (ปิด ${CloseDate})\nลิงค์ร้าน: ${await Urlshortener(resUrl)}\n\nสั่งที่ลิงค์นี้\n${`${url}order/${id}`}`;
     await line(msg);
     return result;
   } catch (error) {
@@ -131,7 +131,7 @@ const addtoOrder = async (Id, Name, DishName, unit) => {
     if (check.length <= 0) {
       const result = await col.findOneAndUpdate({ OrderId }, {
         $push: {
-          MenuList: { DishName, List: [{ Name, unit }] },
+          MenuList: { DishName, List: [{ Name, unit: parseInt(unit, 10) }] },
         },
       });
       client.close();
@@ -141,7 +141,7 @@ const addtoOrder = async (Id, Name, DishName, unit) => {
     const menuList = docs.MenuList;
     const name = DishName;
     const menu = menuList.find(list => list.DishName === name);
-    menu.List.push({ Name, unit });
+    menu.List.push({ Name, unit: parseInt(unit, 10) });
     const result = await col.update({ OrderId, 'MenuList.DishName': DishName }, { $set: { 'MenuList.$.List': menu.List } });
     client.close();
     return (result);

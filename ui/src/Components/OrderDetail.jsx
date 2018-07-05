@@ -131,6 +131,12 @@ class OrderDetail extends Component {
     });
     await this.toggle3();
     this.GetOrderDetail();
+    this.setState({
+      Name: '',
+      DishName: '',
+      unit: 1,
+      cost: 0
+    });
   }
 
   async addDish() {
@@ -143,6 +149,7 @@ class OrderDetail extends Component {
       // alertify.alert('Order ปิดแล้ว')
       history.push('/');
     }
+    if(this.state.DishName != undefined && this.state.DishName.length != 0) {
     await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
@@ -161,6 +168,15 @@ class OrderDetail extends Component {
       showSetcost : false,
     });
     await this.GetOrderDetail();
+   }else{
+     alertify.alert('ชื่ออาหารไม่ถูกต้อง !')
+   }
+   this.setState({
+    Name: '',
+    DishName: '',
+    unit: 1,
+    cost: 0
+  });
   }
   cancelUserDish(Name, index, DishName) {
     const { match } = this.props;
@@ -190,7 +206,7 @@ class OrderDetail extends Component {
     this.setState({ modal: !this.state.modal });
   }
 
-  toggle3(DishName) {
+  toggle3(DishName='') {
     
     this.setState({ 
       modal3: !this.state.modal3, 
@@ -257,7 +273,7 @@ class OrderDetail extends Component {
               <thead>
                 <tr>
                   <th>ชื่อเมนู</th>
-                  <th>จำนวนคนสั่ง</th>
+                  <th>จำนวนทั้งหมด</th>
                   <th>ราคาเมนู</th>
                   <th>คนสั่ง</th>
                   <th />
@@ -271,7 +287,11 @@ class OrderDetail extends Component {
                   this.state.order.MenuList.map(dish => (
                     <tr key={dish.DishName}>
                       <td>{dish.DishName}</td>
-                      <td>{dish.List.length}</td>
+                      <td>
+                      {
+                        dish.List.reduce(((acc, cur) => acc + cur.unit), 0)
+                      }
+                      </td>
                       <td>{dish.Cost}</td>
                       <td>
                         {
@@ -317,7 +337,7 @@ class OrderDetail extends Component {
                       </td>
                       <td>
                         <Button color="success" style={{marginRight : '10px'}} onClick={() => this.toggle3(dish.DishName)}><FontAwesome.FaPlus /></Button>
-                        <Button color="warning" onClick={() => this.toggle2(dish)}>Edit</Button>
+                        <Button color="danger" onClick={() => this.toggle2(dish)}><FontAwesome.FaMinus /></Button>
                       </td>
                     </tr>))
               }

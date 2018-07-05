@@ -99,6 +99,7 @@ class OrderList extends Component {
                          }
                           </tbody>
                         </Table>
+                        <p>ทั้งหมด {list.List.reduce(((acc, cur) => (acc + cur.unit)), 0)}</p>
                       </th>
 
                     </tr>
