@@ -1,6 +1,7 @@
 import autoincrement from 'mongodb-autoincrement';
 import { connectDB } from '../Database/mongo';
 import line from './line';
+import Urlshortener from './Urlshortener';
 
 const dbName = 'NowOrder';
 const colName = 'orders';
@@ -56,7 +57,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
     };
     const result = await col.insert(insertData);
     client.close();
-    const msg = `\nร้าน ${resName} \nURL: ${resUrl} \nสร้างโดย ${creator}\nปิดเวลา : ${CloseDate}\n${`${url}order/${id}`}`;
+    const msg = `\nร้าน ${resName}\nลิงค์ร้าน: ${await Urlshortener(resUrl)}\nสร้างโดย ${creator}\nปิดเวลา : ${CloseDate}\nกดสั่งลิงค์นี้\n${`${url}order/${id}`}`;
     await line(msg);
     return result;
   } catch (error) {

@@ -5,20 +5,20 @@
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
     "cors": "^2.8.4",
     "fastify": "^1.5.0",
     "fastify-mongodb": "^0.7.1",
     "moment": "^2.22.2",
     "mongodb": "^3.0.10",
     "mongodb-autoincrement": "^1.0.1",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0"
-    
+    "qs": "^6.5.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
