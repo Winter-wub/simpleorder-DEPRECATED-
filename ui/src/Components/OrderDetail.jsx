@@ -386,7 +386,7 @@ class OrderDetail extends Component {
             <Col>
               <div style={{ textAlign: 'left' }}>
                 <p><b>ชื่อร้าน:</b> {this.state.RestaurantName}</p>
-                <p><b>ลิงค์:</b><a target="_blank" rel="noopener noreferrer" href={this.state.RestaurantUrl} style={{ paddingLeft: '8px' }}><FontAwesome.FaExternalLink /></a></p>
+                <p><b>ลิงค์:</b><a target="_blank" rel="noopener noreferrer" href={this.state.RestaurantUrl} style={{ paddingLeft: '8px' }}>{this.state.RestaurantUrl}</a></p>
                 <p><b>คนสั่ง:</b> {this.state.Creator}</p>
                 <CopyToClipboard text={window.location.href}>
                   <Button color="info">คัดลอก url หน้านี้</Button>

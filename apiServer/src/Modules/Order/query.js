@@ -34,6 +34,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
   const client = await connectDB();
   const db = client.db(dbName);
   const col = db.collection(colName);
+  const sUrl = await Urlshortener(resUrl);
   let id;
   try {
     const autoindex = () => new Promise((resolve, reject) => {
@@ -46,7 +47,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
     id = genId;
     const insertData = {
       RestaurantName: resName,
-      RestaurantUrl: resUrl,
+      RestaurantUrl: sUrl,
       OrderId: genId,
       Creator: creator,
       MenuList: [],
@@ -57,7 +58,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
     };
     const result = await col.insert(insertData);
     client.close();
-    const msg = `\nร้าน ${resName}\nลิงค์ร้าน: ${await Urlshortener(resUrl)}\nสร้างโดย ${creator}\nปิดเวลา : ${CloseDate}\nกดสั่งลิงค์นี้\n${`${url}order/${id}`}`;
+    const msg = `\nร้าน ${resName}\nลิงค์ร้าน: ${await Urlshortener(resUrl)}\nสร้างโดย ${creator}\nปิดเวลา : ${CloseDate}\nสั่งที่ลิงค์นี้\n${`${url}order/${id}`}`;
     await line(msg);
     return result;
   } catch (error) {
