@@ -16,11 +16,15 @@ For ordering food Without taking notes.
 - api
 
 In folder (apiServer)
+```
 start with npm start
+```
 - ui
 
 In folder (ui)
+```
 start with npm start
+```
 #
 
 ## Production
@@ -28,8 +32,13 @@ start with npm start
 - api
 
 In folder (apiServer)
+```
 start with npm run build and node dist/index.js
+```
 - ui
 
 In folder (ui) (install serve 1st with npm install serv)
+
+```
 start with npm run build and serve -s build
+```
