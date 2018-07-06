@@ -4,9 +4,9 @@ import qs from 'querystring';
 
 const BASE_URL = 'https://notify-api.line.me';
 const PATH = '/api/notify';
-const token = 'SB9t3CS2uUpbEjszBbqcKKJb9KRC7yWjM6sH3o2FZO0';
-// real token Gg9Qak7wvf4pBs8wT4HXh1amM4oglqCOf6IKQnKMdls 
-
+const token = 'Gg9Qak7wvf4pBs8wT4HXh1amM4oglqCOf6IKQnKMdls';
+// real token Gg9Qak7wvf4pBs8wT4HXh1amM4oglqCOf6IKQnKMdls
+// test token SB9t3CS2uUpbEjszBbqcKKJb9KRC7yWjM6sH3o2FZO0
 const sendmsg = async (msg = 'Not config msg') => {
   const config = {
     baseURL: BASE_URL,
