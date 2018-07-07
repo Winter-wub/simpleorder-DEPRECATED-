@@ -14,6 +14,10 @@ fastify.get('/api/healthcheck', async (req, reply) => {
   reply.send({ data: 'ok' });
 });
 
+fastify.get('/', async (req, reply) => {
+  reply.send({ 'Simple Order API build from fastify framework.': '' });
+});
+
 fastify.listen(port, '0.0.0.0', (err) => {
   if (err) throw err;
   console.log(`Server Running on ${port}`);

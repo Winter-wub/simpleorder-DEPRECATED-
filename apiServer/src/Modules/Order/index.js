@@ -1,4 +1,15 @@
-import { getOrders, getOrderByid, createOrder, editOrder, deleteOrder, finishOrder, addtoOrder, dishDel, setCost, setDelivercost } from './query';
+import {
+  getOrders,
+  getOrderByid,
+  createOrder,
+  editOrder,
+  deleteOrder,
+  finishOrder,
+  addtoOrder,
+  dishDel,
+  setCost,
+  setDelivercost,
+} from './query';
 
 module.exports = (fastify, option, next) => {
   fastify.get('/api/Orders/', async (req, reply) => {

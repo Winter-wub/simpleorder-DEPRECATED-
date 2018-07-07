@@ -1,5 +1,5 @@
 import autoincrement from 'mongodb-autoincrement';
-import { connectDB } from '../Database/mongo';
+import connectDB from '../Database/mongo';
 import line from './line';
 import Urlshortener from './Urlshortener';
 
@@ -25,8 +25,7 @@ const getOrderByid = async (Id) => {
     client.close();
     return result;
   } catch (error) {
-    console.log(error);
-    return error;
+    throw error;
   }
 };
 
@@ -62,7 +61,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
     await line(msg);
     return result;
   } catch (error) {
-    return console.log(error.stack);
+    throw error;
   }
 };
 
@@ -85,7 +84,7 @@ const editOrder = async (resName, resUrl, id) => {
     client.close();
     return result;
   } catch (error) {
-    return console.log(error.stack);
+    throw error;
   }
 };
 
@@ -99,7 +98,7 @@ const deleteOrder = async (Id) => {
     client.close();
     return result;
   } catch (error) {
-    return console.log(error.stack);
+    throw error;
   }
 };
 
@@ -117,7 +116,7 @@ const finishOrder = async (Id) => {
     client.close();
     return result;
   } catch (error) {
-    return console.log(error.stack);
+    throw error;
   }
 };
 
@@ -146,7 +145,7 @@ const addtoOrder = async (Id, Name, DishName, unit) => {
     client.close();
     return (result);
   } catch (error) {
-    return console.log(error.stack);
+    throw error;
   }
 };
 
