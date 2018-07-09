@@ -41,7 +41,7 @@ build/Release
 # Dependency directories
 /apiServer/node_modules/
 /apiServer/dist/
-/apiServer/.babalrc
+
 /apiServer/.package-lock.json
 /apiServer/.vscode/
 jspm_packages/
