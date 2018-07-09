@@ -85,7 +85,7 @@ class OrderList extends Component {
                           <thead>
                             <tr>
                               <th>ชื่อ</th>
-                              <th>จำนวน</th>
+                              
                             </tr>
                           </thead>
                           <tbody>
@@ -93,13 +93,13 @@ class OrderList extends Component {
                            !list.List.length > 0 ? '' : list.List.map(s => (
                              <tr>
                                <td>{s.Name}</td>
-                               <td>{s.unit}</td>
+                               
                              </tr>
                            ))
                          }
                           </tbody>
                         </Table>
-                        <p>รวม {list.List.reduce(((acc, cur) => (acc + cur.unit)), 0)}</p>
+                        <p>รวม {list.List.reduce(((acc, cur) => (acc + cur.unit)), 0)} หน่วย</p>
                       </th>
 
                     </tr>

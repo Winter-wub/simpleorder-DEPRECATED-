@@ -149,7 +149,7 @@ class OrderDetail extends Component {
       // alertify.alert('Order ปิดแล้ว')
       history.push('/');
     }
-    if(this.state.DishName != undefined && this.state.DishName.length != 0) {
+    if(this.state.DishName !== undefined && this.state.DishName.length !== 0) {
     await axios.post(url2, {
       Name: this.state.Name,
       DishName: this.state.DishName,
