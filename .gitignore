@@ -88,8 +88,7 @@ ui/npm-debug.log*
 ui/yarn-error.log*
 
 
-# End of https://www.gitignore.io/api/node,visualstudiocode
-apiServer/.babelrc
+
 apiServer/.eslintrc.js
 ui/.gitignore
 ui/.eslintrc.json
