@@ -1,1 +1,1 @@
-{ "presets": ["2015"] }
+{ "presets": ["env"] }
