@@ -21,6 +21,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import alertify from 'alertify.js';
 import validation from '../validation/field';
 import AddDish from './AddDish';
+import Qrcode from 'qrcode.react';
+import promptpay from 'promptpay-qr';
 
 //  import EditOrder from './EditOrder';
 
@@ -46,6 +48,7 @@ class OrderDetail extends Component {
       cost: 0,
       showSetcost : false,
       Status : '',
+      tel: '',
     };
 
     this.GetOrderDetail = this.GetOrderDetail.bind(this);
@@ -243,6 +246,7 @@ class OrderDetail extends Component {
       RestaurantName: ResponseData.data[0].RestaurantName,
       RestaurantUrl: ResponseData.data[0].RestaurantUrl,
       Status: ResponseData.data[0].Status,
+      tel: ResponseData.data[0].tel,
     });
 
     if(this.state.Status === 'Ordered'){
@@ -390,7 +394,7 @@ class OrderDetail extends Component {
       <div style={{ paddingTop: '55px' }}>
         <Container>
           <Row>
-            <Col>
+            <Col xs="3">
               <div style={{ textAlign: 'left' }}>
                 <p><b>ชื่อร้าน:</b> {this.state.RestaurantName}</p>
                 <p><b>ลิงค์:</b><a target="_blank" rel="noopener noreferrer" href={this.state.RestaurantUrl} style={{ paddingLeft: '8px' }}>{this.state.RestaurantUrl}</a></p>
@@ -399,6 +403,27 @@ class OrderDetail extends Component {
                   <Button color="info">คัดลอก url หน้านี้</Button>
                 </CopyToClipboard>
               </div>
+            </Col>
+            <Col xs="auto">
+              <div style={{height: '150px', width: '150px'}}>
+                <Qrcode value={promptpay(this.state.tel===undefined?'':this.state.tel, 0)}/>   
+              </div>
+            </Col>
+            <Col xs="3">
+              <Button
+                style={{
+                  position: 'fixed',
+                  top: '10%',
+                  right: '10px',
+                  height: '15%',
+                  fontSize: '20px',
+                  borderRadius: '25px',
+                 }}
+                color="success"
+                onClick={() => this.toggleModaladdDish()}>
+                <FontAwesome.FaPlus />
+                  เพิ่มเมนู
+              </Button>
             </Col>
           </Row>
         </Container>
@@ -422,21 +447,7 @@ class OrderDetail extends Component {
             cost={this.state.Cost}
             show={this.state.showSetcost}
           />
-          <Button
-            color="success"
-            style={{
-               position: 'fixed',
-               bottom: '2%',
-               right: '10px',
-               borderRadius: '25px',
-               height: '100px',
-               fontSize: '25px',
-              }}
-            onClick={() => this.toggleModaladdDish()}
-          >
-            <FontAwesome.FaPlus />
-                  สั่งอาหาร
-          </Button>
+          
           <Button color="danger" style={{ width: '50%', marginTop: '25%' }} onClick={() => this.finishOrder()}><FontAwesome.FaClose />ปิด Order</Button>
         </div>
         {PlusButton()}

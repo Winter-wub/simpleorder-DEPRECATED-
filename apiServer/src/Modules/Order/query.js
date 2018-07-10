@@ -29,7 +29,7 @@ const getOrderByid = async (Id) => {
   }
 };
 
-const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
+const createOrder = async (resName, resUrl, creator, CloseDate, url, tel) => {
   const client = await connectDB();
   const db = client.db(dbName);
   const col = db.collection(colName);
@@ -49,6 +49,7 @@ const createOrder = async (resName, resUrl, creator, CloseDate, url) => {
       RestaurantUrl: sUrl,
       OrderId: genId,
       Creator: creator,
+      tel: tel,
       MenuList: [],
       Status: 'Pending',
       CreateDate: new Date(),

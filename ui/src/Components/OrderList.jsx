@@ -1,4 +1,4 @@
-import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader, Popover, PopoverBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Tooltip } from 'react-tippy';
 import * as FontAwesome from 'react-icons/lib/fa';
@@ -12,6 +12,8 @@ import 'react-tippy/dist/tippy.css';
 
 import { url } from '../config';
 import CreateOrder from './CreateOrder';
+import Qrcode from 'qrcode.react';
+import promptpay from 'promptpay-qr';
 
 class OrderList extends Component {
   constructor(props) {
@@ -22,21 +24,30 @@ class OrderList extends Component {
       modalListOrder: false,
       item: 7,
       OrderId: 0,
+      showPromptpay: false,
+      tel: '',
     };
     this.LoadOrderList = this.LoadOrderList.bind(this);
     this.toggleModalListOrder = this.toggleModalListOrder.bind(this);
     this.showMore = this.showMore.bind(this);
+    this.toggleShowpromptpay = this.toggleShowpromptpay.bind(this);
   }
   componentDidMount() {
     this.LoadOrderList();
   }
 
-  toggleModalListOrder(MenuList, id) {
+  toggleModalListOrder(MenuList, id, tel) {
     this.setState({
       modalListOrder: !this.state.modalListOrder,
       listOrder: MenuList,
       OrderId: id,
+      tel: tel,
     });
+  }
+
+  toggleShowpromptpay() {
+    this.setState({ showPromptpay: !this.state.showPromptpay })
+    
   }
   async LoadOrderList() {
     const response = await axios.get(url);
@@ -119,6 +130,13 @@ class OrderList extends Component {
         <ModalHeader toggle={this.toggleModalListOrder} > คนสั่ง </ModalHeader>
         {checkOrder()}
         <ModalFooter>
+        <Button className="mr-auto" onClick={this.toggleShowpromptpay} id="prompt">Show QR ชำระเงิน</Button>
+          <Popover placement="top" isOpen={this.state.showPromptpay} target="prompt" toggle={this.toggleShowpromptpay}>
+            <PopoverBody>
+                 <p> เบอร์ {this.state.tel}</p>
+                <Qrcode value={promptpay(this.state.tel===undefined?'':this.state.tel,0)} />
+            </PopoverBody>
+          </Popover>
           <Link to={`/Sum/${this.state.OrderId}`}><Button color="info">สรุปค่าใช้จ่าย</Button></Link>
         </ModalFooter>
       </Modal>
@@ -165,7 +183,7 @@ class OrderList extends Component {
                 <th>
                   { List.Status === 'Pending' ?
                     <Tooltip position="right" title={`สร้างเมื่อ${moment(List.CreateDate).format('LTS')}`} trigger="mouseenter"><Link to={`/order/${List.OrderId}`}><Button color="success">สั่งอาหาร</Button></Link></Tooltip> :
-                    <Button onClick={() => this.toggleModalListOrder(List.MenuList, List.OrderId)}>ดูยอดคนสั่ง</Button>
+                    <Button onClick={() => this.toggleModalListOrder(List.MenuList, List.OrderId, List.tel)}>ดูยอดคนสั่ง</Button>
                   }
                 </th>
                 <th>
