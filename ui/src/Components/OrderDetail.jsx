@@ -14,13 +14,12 @@ import {
 } from 'reactstrap';
 import * as FontAwesome from 'react-icons/lib/fa';
 import axios from 'axios';
-import Creatable from 'react-select/lib/Creatable';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import alertify from 'alertify.js';
-
+import validation from '../validation/field';
 import AddDish from './AddDish';
 
 //  import EditOrder from './EditOrder';
@@ -57,11 +56,11 @@ class OrderDetail extends Component {
     this.addDish2 = this.addDish2.bind(this);
     this.cancelOrder = this.cancelOrder.bind(this);
     this.finishOrder = this.finishOrder.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.toggleModaladdDish = this.toggleModaladdDish.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleunit = this.handleunit.bind(this);
     this.handleCost = this.handleCost.bind(this);
+    this.handleDishname = this.handleDishname.bind(this);
   }
   
   componentDidMount() {
@@ -70,14 +69,6 @@ class OrderDetail extends Component {
   toggleModaladdDish() {
     this.setState({
       modalDish: !this.state.modalDish,
-    });
-  }
-  async editOrder() {
-    const { match } = this.props;
-    await axios.patch(url, {
-      RestaurantName: this.state.RestaurantName,
-      RestaurantUrl: this.state.RestaurantUrl,
-      OrderId: parseInt(match.params.id, 10),
     });
   }
   finishOrder() {
@@ -111,72 +102,89 @@ class OrderDetail extends Component {
       // alertify.alert('Order ปิดแล้ว');
       history.push('/');
     }
-   
-    await axios.post(url2, {
-      Name: this.state.Name,
-      DishName: this.state.DishName,
-      unit: this.state.unit,
-      cost: this.state.cost,
-    });
-    this.setState({
-      Name: '',
-      unit: 1,  
-    });
-    if (this.state.cost !== 0) {
-      await axios.post(urlSetcost + match.params.id, { DishName: this.state.DishName, Cost: this.state.cost });
+    const {Name, DishName, unit} = this.state;
+    
+    const rawData = {
+      Name,
+      DishName,
+      unit,
     }
-    this.setState({
-      cost: 0,
-      showSetcost : false,
+    let vali = [];
+    Object.values(rawData).forEach(Data => {
+      if(isNaN(Data)){
+        vali.push(validation.text(Data));
+      } else {
+        vali.push(validation.number(Data));
+      }
     });
-    await this.toggle3();
-    this.GetOrderDetail();
-    this.setState({
-      Name: '',
-      DishName: '',
-      unit: 1,
-      cost: 0
-    });
+    if (!vali.includes(false)) {
+        await axios.post(url2, {
+          Name: this.state.Name,
+          DishName: this.state.DishName,
+          unit: this.state.unit,
+          cost: this.state.cost,
+        });
+        this.setState({
+          Name: '',
+          unit: 1,
+          DishName: '',
+          cost: 0,
+          showSetcost : false,
+        });
+        await this.toggle3();
+        this.GetOrderDetail();
+    } else {
+      alertify.error('กรุณากรอกข้อมูลให้ถูกต้อง');
+    }
+    
   }
 
   async addDish() {
     const { match } = this.props;
     const url2 = url + match.params.id;
-    this.toggleModaladdDish();
-    await this.GetOrderDetail();
+    
+    // await this.GetOrderDetail();
     if(this.state.Status === 'Ordered'){
       const {history} = this.props;
-      // alertify.alert('Order ปิดแล้ว')
       history.push('/');
     }
-    if(this.state.DishName !== undefined && this.state.DishName.length !== 0) {
-    await axios.post(url2, {
-      Name: this.state.Name,
-      DishName: this.state.DishName,
-      unit: this.state.unit,
-      cost: this.state.cost,
-    });
-    this.setState({
-      Name: '',
-      unit: 1,
-    });
-    if (this.state.cost !== 0) {
-      await axios.post(urlSetcost + match.params.id, { DishName: this.state.DishName, Cost: this.state.cost });
+    const {Name, DishName, unit, cost} = this.state;
+    const rawData = {
+      Name,
+      DishName,
+      unit,
+      cost
     }
-    this.setState({
-      cost: 0,
-      showSetcost : false,
+    let vali = [];
+    Object.values(rawData).forEach(Data => {
+      if(isNaN(Data)){
+        vali.push(validation.text(Data));
+      } else {
+        vali.push(validation.number(Data));
+      }
     });
-    await this.GetOrderDetail();
-   }else{
-     alertify.alert('ชื่ออาหารไม่ถูกต้อง !')
-   }
-   this.setState({
-    Name: '',
-    DishName: '',
-    unit: 1,
-    cost: 0
-  });
+    if (!vali.includes(false)){
+      this.toggleModaladdDish();
+      await axios.post(url2, {
+        Name: this.state.Name,
+        DishName: this.state.DishName,
+        unit: this.state.unit,
+        cost: this.state.cost,
+      });
+      await axios.post(urlSetcost + match.params.id, { DishName: this.state.DishName, Cost: this.state.cost });
+      this.setState({
+        Name: '',
+        unit: 1,
+        cost: 0,
+        showSetcost : false,
+      });
+      await this.GetOrderDetail();
+
+    }
+    else{
+      alertify.error('ข้อมูลไม่ถูกต้อง')
+    }
+   
   }
   cancelUserDish(Name, index, DishName) {
     const { match } = this.props;
@@ -213,29 +221,17 @@ class OrderDetail extends Component {
       DishName: DishName  });
    
   }
-
-  handleChange(newValue) {
-    if (newValue != null) {
-      this.setState({
-        DishName: newValue.value,
-      });
-    }
-  }
   handleCost(e) {
-    this.setState({
-      cost: e.target.value,
-    });
+    this.setState({ cost: e.target.value });
   }
-
   handleName(e) {
-    this.setState({
-      Name: e.target.value,
-    });
+    this.setState({ Name: e.target.value });
   }
   handleunit(e) {
-    this.setState({
-      unit: e.target.value,
-    });
+    this.setState({ unit: e.target.value });
+  }
+  handleDishname(e) {
+    this.setState({ DishName: e.target.value });
   }
 
   async GetOrderDetail() {
@@ -256,15 +252,6 @@ class OrderDetail extends Component {
     }
   }
   render() {
-    const currentDishlist = () => {
-      const menuList = this.state.order.MenuList;
-      if (menuList) {
-        const option = menuList.map(List => ({ value: List.DishName, label: List.DishName }));
-        return (<Creatable Name="DishName" isClearable="isClearable" onChange={this.handleChange} options={option} placeholder="เลือกเมนู หรือ สร้างใหม่" />);
-      }
-      return (<Label />);
-    };
-
     const DishList = () => {
       if (this.state.order.MenuList) {
         return (
@@ -424,13 +411,14 @@ class OrderDetail extends Component {
           <AddDish
             modalDish={this.state.modalDish}
             toggleModaladdDish={this.toggleModaladdDish}
-            currentDishlist={currentDishlist}
+            DishName={this.state.DishName}
             Name={this.state.Name}
             unit={this.state.unit}
             addDish={this.addDish}
             handleName={this.handleName}
             handleunit={this.handleunit}
             handleCost={this.handleCost}
+            handleDishname={this.handleDishname}
             cost={this.state.Cost}
             show={this.state.showSetcost}
           />
