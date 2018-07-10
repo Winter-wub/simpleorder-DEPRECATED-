@@ -1,5 +1,5 @@
 import autoincrement from 'mongodb-autoincrement';
-import connectDB from '../Database/mongo';
+import {connectDB} from '../Database/mongo';
 import line from './line';
 import Urlshortener from './Urlshortener';
 
