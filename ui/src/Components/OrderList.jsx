@@ -1,4 +1,4 @@
-import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader, Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Tooltip } from 'react-tippy';
 import * as FontAwesome from 'react-icons/lib/fa';
@@ -81,24 +81,19 @@ class OrderList extends Component {
                       <th>{list.DishName}</th>
                       <th>{!list.Cost ? <p>ยังไม่ได้กำหนดราคา</p> : list.Cost}</th>
                       <th>
-                        <Table size="sm">
-                          <thead>
-                            <tr>
-                              <th>ชื่อ</th>
-                              
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                           !list.List.length > 0 ? '' : list.List.map(s => (
-                             <tr>
-                               <td>{s.Name}</td>
+                          <div style={{height: '90px', width:'200px'}}>
+                           {!list.List.length > 0 ? '' : list.List.map( s => { 
+                                 if( s.unit > 1) {
+                                   return ( <Badge color="info" style={{marginRight: '5px'}}>{s.Name}({s.unit})</Badge> );
+                                 }else{
+                                   return ( <Badge color="info" style={{marginRight: '5px'}}>{s.Name} </Badge> );
+                                 }
+                             }
+                            )
+                          }
+                          </div>
                                
-                             </tr>
-                           ))
-                         }
-                          </tbody>
-                        </Table>
+                       
                         <p>รวม {list.List.reduce(((acc, cur) => (acc + cur.unit)), 0)} หน่วย</p>
                       </th>
 
