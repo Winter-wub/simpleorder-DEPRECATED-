@@ -26,9 +26,9 @@ module.exports = (fastify, option, next) => {
 
   fastify.post('/api/Orders/', async (req, reply) => {
     const {
-      RestaurantName, RestaurantUrl, Creator, CloseDate, url,
+      RestaurantName, RestaurantUrl, Creator, CloseDate, url, tel,
     } = req.body;
-    const data = await createOrder(RestaurantName, RestaurantUrl, Creator, CloseDate, url);
+    const data = await createOrder(RestaurantName, RestaurantUrl, Creator, CloseDate, url, tel);
     reply.send(data);
   });
 

@@ -18,11 +18,13 @@ class CreateOrder extends Component {
       RestaurantUrl: '-',
       Creator: '',
       CloseDate: '',
+      tel: '',
     };
 
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeURL = this.handleChangeURL.bind(this);
     this.handleChangeOwner = this.handleChangeOwner.bind(this);
+    this.handleChangeTel = this.handleChangeTel.bind(this);
     this.handleChangeCloseDate = this.handleChangeCloseDate.bind(this);
     this.toggle = this.toggle.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,6 +50,9 @@ class CreateOrder extends Component {
   handleChangeCloseDate(e) {
     this.setState({ CloseDate: e.target.value });
   }
+  handleChangeTel(e) {
+    this.setState({ tel: e.target.value });
+  }
   async handleSubmit() {
     this.toggle();
     const post = {
@@ -55,7 +60,8 @@ class CreateOrder extends Component {
       RestaurantUrl: this.state.RestaurantUrl,
       Creator: this.state.Creator,
       CloseDate: this.state.CloseDate,
-      url: window.location.href
+      url: window.location.href,
+      tel: this.state.tel,
     };
     await axios.post(url, post);
     await this.props.reloadOrderList();
@@ -76,6 +82,7 @@ class CreateOrder extends Component {
           handleChangeURL={this.handleChangeURL}
           handleChangeOwner={this.handleChangeOwner}
           handleChangeCloseDate={this.handleChangeCloseDate}
+          handleChangeTel={this.handleChangeTel}
         />
       </div>
     );

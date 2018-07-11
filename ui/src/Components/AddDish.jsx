@@ -27,8 +27,8 @@ const AddDishModal = props => (
       </FormGroup>
     </ModalBody>
     <ModalFooter>
-      <Button color="success"onClick={props.addDish}>Add</Button>
-      <Button color="default"onClick={props.toggleModaladdDish}>Close</Button>
+      <Button color="default" className="mr-auto" onClick={props.toggleModaladdDish}>Close</Button>
+      <Button color="success" onClick={props.addDish}>Add</Button>
     </ModalFooter>
 
   </Modal>
