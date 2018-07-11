@@ -42,7 +42,7 @@ class ModalCreateOrder extends Component {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="default" onClick={this.props.toggle}>Close</Button>
+          <Button color="default" className="mr-auto" onClick={this.props.toggle}>Close</Button>
           <Button color="success" onClick={this.props.handleSubmit}>Create</Button>
         </ModalFooter>
       </Modal>

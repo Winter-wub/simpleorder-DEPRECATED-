@@ -1,4 +1,4 @@
-import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader, Popover, PopoverBody } from 'reactstrap';
+import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader, Popover, PopoverBody, Badge } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Tooltip } from 'react-tippy';
 import * as FontAwesome from 'react-icons/lib/fa';
@@ -130,7 +130,7 @@ class OrderList extends Component {
         <ModalHeader toggle={this.toggleModalListOrder} > คนสั่ง </ModalHeader>
         {checkOrder()}
         <ModalFooter>
-        <Button className="mr-auto" onClick={this.toggleShowpromptpay} id="prompt">Show QR ชำระเงิน</Button>
+        <Button className="mr-auto" onClick={this.toggleShowpromptpay} id="prompt">Show QR ชำระเงิน <Badge color="danger">New</Badge></Button>
           <Popover placement="top" isOpen={this.state.showPromptpay} target="prompt" toggle={this.toggleShowpromptpay}>
             <PopoverBody>
                  <p> เบอร์ {this.state.tel}</p>
