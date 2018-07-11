@@ -129,8 +129,13 @@ class OrderList extends Component {
         <Button className="mr-auto" onClick={this.toggleShowpromptpay} id="prompt">Show QR ชำระเงิน <Badge color="danger">New</Badge></Button>
           <Popover placement="top" isOpen={this.state.showPromptpay} target="prompt" toggle={this.toggleShowpromptpay}>
             <PopoverBody>
-                 <p> เบอร์ {this.state.tel}</p>
-                <Qrcode value={promptpay(this.state.tel===undefined?'':this.state.tel,0)} />
+              {
+                typeof this.state.tel === 'undefined' || this.state.tel.length === 0 ? 
+                'ไม่มีเบอร์โทร' : 
+                (<div> <p> เบอร์ {this.state.tel}</p>
+                <Qrcode value={promptpay(this.state.tel===undefined?'':this.state.tel,0)} /></div>
+                )
+              }
             </PopoverBody>
           </Popover>
           <Link to={`/Sum/${this.state.OrderId}`}><Button color="info">สรุปค่าใช้จ่าย</Button></Link>

@@ -48,7 +48,7 @@ class CreateOrder extends Component {
     this.setState({ Creator: e.target.value });
   }
   handleChangeCloseDate(e) {
-    this.setState({ CloseDate: e.target.value });
+    this.setState({ CloseDate: e.format('LT') });
   }
   handleChangeTel(e) {
     this.setState({ tel: e.target.value });
