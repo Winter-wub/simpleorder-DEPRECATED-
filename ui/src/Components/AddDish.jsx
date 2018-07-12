@@ -9,7 +9,7 @@ const AddDishModal = props => (
         <InputGroup>
           <InputGroupAddon addonType="prepend">ชื่อเมนู&nbsp;</InputGroupAddon>
           <div style={{minWidth: '76%',}}>
-            <Input type="text" name="DishName" maxLength="15" value={props.DishName} onChange={props.handleDishname}require />
+            <Input type="text" name="DishName" maxLength="60" value={props.DishName} onChange={props.handleDishname}require />
           </div>
         </InputGroup>
         <InputGroup>
