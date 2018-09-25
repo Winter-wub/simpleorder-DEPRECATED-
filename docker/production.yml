@@ -22,40 +22,40 @@ services:
       options:
         max-size: 50m
 
-  simpleorder-api:
-    build: ./node
-    container_name: simpleorder-api
-    tty: true
-    volumes:
-      - ../apiServer:/app
-      - ./node/daemon-app.js:/app/daemon-app.js
-    ports:
-      - 3334:3001
-    links:
-      - simpleorder-mongodb
-    working_dir: /app
-    environment:
-      NODE_ENV: "production"
-    command: >
-        sh -c "npm install --production
-        && npm run clean
-        && npm run build
-        && NODE_ENV=production pm2 start -f dist/index.js --name="api" --instances 1 --max-memory-restart 150M
-        && pm2-docker start daemon-app.js --instances 1"
-    logging:
-      driver: json-file
-      options:
-        max-size: 50m
+  # simpleorder-api:
+  #   build: ./node
+  #   container_name: simpleorder-api
+  #   tty: true
+  #   volumes:
+  #     - ../apiServer:/app
+  #     - ./node/daemon-app.js:/app/daemon-app.js
+  #   ports:
+  #     - 3334:3001
+  #   links:
+  #     - simpleorder-mongodb
+  #   working_dir: /app
+  #   environment:
+  #     NODE_ENV: "production"
+  #   command: >
+  #       sh -c "npm install --production
+  #       && npm run clean
+  #       && npm run build
+  #       && NODE_ENV=production pm2 start -f dist/index.js --name="api" --instances 1 --max-memory-restart 150M
+  #       && pm2-docker start daemon-app.js --instances 1"
+  #   logging:
+  #     driver: json-file
+  #     options:
+  #       max-size: 50m
 
-  simpleorder-mongodb:
-    build: ./mongodb
-    container_name: simpleorder-mongodb
-    tty: true
-    volumes:
-      - ../docker/mongodb/data:/data/db
-    ports:
-      - 27019:27017
-    logging:
-      driver: json-file
-      options:
-        max-size: 50m
+  # simpleorder-mongodb:
+  #   build: ./mongodb
+  #   container_name: simpleorder-mongodb
+  #   tty: true
+  #   volumes:
+  #     - ../docker/mongodb/data:/data/db
+  #   ports:
+  #     - 27019:27017
+  #   logging:
+  #     driver: json-file
+  #     options:
+  #       max-size: 50m

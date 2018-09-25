@@ -2,8 +2,8 @@
 import { Container, Table, Col, Button, Row, Modal, ModalBody, ModalFooter, ModalHeader, Badge, Popover, PopoverBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Tooltip } from 'react-tippy';
-import * as FontAwesome from 'react-icons/lib/fa';
-import * as io from 'react-icons/lib/io';
+import * as FontAwesome from 'react-icons/fa';
+import * as io from 'react-icons/io';
 import axios from 'axios';
 import moment from 'moment';
 import React, { Component } from 'react';
@@ -157,7 +157,7 @@ class OrderList extends Component {
           color="warning"
           onClick={() => this.LoadOrderList()}
         >
-          <FontAwesome.FaRefresh style={{ marginRight: '5%' }} />
+          <FontAwesome.FaRecycle style={{ marginRight: '5%' }} />
         </Button>
 
         <Row>
@@ -169,10 +169,10 @@ class OrderList extends Component {
                 <tr>
                   <th />
                   <th><FontAwesome.FaList /> Action</th>
-                  <th><io.IoAndroidCart />Name</th>
+                  <th><io.IoIosCart />Name</th>
                   <th><io.IoIosTimer />Close time</th>
                   <th><FontAwesome.FaUser /> Owner</th>
-                  <th><io.IoStatsBars /> Status</th>
+                  <th><io.IoIosStats /> Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -188,7 +188,7 @@ class OrderList extends Component {
                   }
                 </th>
                 <th>
-                  <a href={List.RestaurantUrl} target="_blank" rel="noopener noreferrer" ><FontAwesome.FaExternalLinkSquare /> {List.RestaurantName}</a>
+                  <a href={List.RestaurantUrl} target="_blank" rel="noopener noreferrer" ><FontAwesome.FaExternalLinkSquareAlt /> {List.RestaurantName}</a>
                 </th>
                 <td>{List.CloseDate}</td>
                 <td>{List.Creator}</td>

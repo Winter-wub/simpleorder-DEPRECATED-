@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import React from 'react';
-import * as FontAwesome from 'react-icons/lib/fa';
+import * as FontAwesome from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/brand.css';
 

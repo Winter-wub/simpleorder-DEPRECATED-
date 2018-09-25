@@ -90,6 +90,7 @@ ui/yarn-error.log*
 
 
 apiServer/.eslintrc.js
+apiServer/data/*
 ui/.gitignore
 ui/.eslintrc.json
 ui/package-lock.json

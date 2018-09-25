@@ -2,7 +2,7 @@ import { Button } from 'reactstrap';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import * as FontAwesome from 'react-icons/lib/fa';
+import * as FontAwesome from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import ModalCreateOrder from './ModalCreateOrder';

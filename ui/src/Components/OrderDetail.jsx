@@ -12,7 +12,7 @@ import {
   Badge,
   Input,
 } from 'reactstrap';
-import * as FontAwesome from 'react-icons/lib/fa';
+import * as FontAwesome from 'react-icons/fa';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -448,7 +448,7 @@ class OrderDetail extends Component {
             show={this.state.showSetcost}
           />
           
-          <Button color="danger" style={{ width: '50%', marginTop: '25%' }} onClick={() => this.finishOrder()}><FontAwesome.FaClose />ปิด Order</Button>
+          <Button color="danger" style={{ width: '50%', marginTop: '25%' }} onClick={() => this.finishOrder()}><FontAwesome.FaWindowClose />ปิด Order</Button>
         </div>
         {PlusButton()}
       </div>);
