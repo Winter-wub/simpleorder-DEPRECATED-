@@ -1,4 +1,4 @@
- # Simple Ordering App
+ # Simple Ordering App (DEPRECATED)
  	 
 A simple web application created by	 
 - ReactJS 16.4.1
